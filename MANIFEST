@@ -60,6 +60,7 @@ man/wddump.1.xml
 man/wdrender.1.xml
 MANIFEST			This list of files
 VERSION.pm
+LICENSE
 META.yml
 man/Makefile
 doc/Makefile
