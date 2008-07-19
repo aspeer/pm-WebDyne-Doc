@@ -39,7 +39,8 @@ WriteMakefile(
 
 
     'macro'				  =>   {
-        LICENCE				  =>   'Commercial (see LICENSE file)',
+        COPYRIGHT			  =>  'Copyright (c) 2003 Andrew Speer, All rights reserved',
+	LICENSE				  =>  'GPL: GNU General Public License'
     }
 
 
