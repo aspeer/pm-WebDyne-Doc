@@ -61,3 +61,5 @@ man/wdrender.1.xml
 MANIFEST			This list of files
 VERSION.pm
 META.yml
+man/Makefile
+doc/Makefile
