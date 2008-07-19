@@ -1,0 +1,71 @@
+#  Makefile.PL for WebDyne Site
+#
+package WebDyne::Doc;
+
+
+#  Compiler Pragma
+#
+use 5.006;
+use strict qw(vars);
+
+
+#  External Modules
+#
+use ExtUtils::MakeMaker;
+
+
+#  All done, init finished
+#
+#------------------------------------------------------------------------------
+
+
+#  Create the Makefile
+#
+WriteMakefile(
+
+    NAME				  =>  __PACKAGE__,
+    VERSION_FROM			  =>  'VERSION.pm',
+    PM					  =>  {},
+
+    'dist'				  =>  {
+	COMPRESS			  =>  'gzip -9f', 
+	SUFFIX				  =>  '.gz'
+       },
+
+
+    'depend'				  =>   {
+	Makefile			  =>  '$(VERSION_FROM)'
+       },
+
+
+    'macro'				  =>   {
+        LICENCE				  =>   'Commercial (see LICENSE file)',
+    }
+
+
+   );
+
+
+sub MY::postamble {
+
+return <<'MAKE_FRAG';
+
+DIR_DOCBOOK=doc
+DIR_MANPAGE=man
+DIRS=$(DIR_DOCBOOK) $(DIR_MANPAGE)
+
+webdyne_doc : 
+	cd $(DIR_DOCBOOK); $(MAKE) $(MFLAGS)
+
+webdyne_man :
+	cd $(DIR_MANPAGE); $(MAKE) $(MFLAGS)
+
+all :: webdyne_doc webdyne_man
+
+clean ::
+	$(ECHO) cleaning up in .
+	-for d in $(DIRS); do (cd $$d; $(MAKE) clean ); done
+
+MAKE_FRAG
+}
+

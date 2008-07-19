@@ -1,0 +1,99 @@
+#fedora-content li p {
+	margin: 0.2em;
+}
+
+#fedora-content div.table table {
+	width: 95%;
+	background-color: #DCDCDC; 
+	color: #000000;
+	border-spacing: 0;
+}
+
+#fedora-content div.table table th {
+	border: 1px solid #A9A9A9;	
+	background-color: #A9A9A9;
+	color: #000000;
+}
+
+#fedora-content div.table table td {
+	border: 1px solid #A9A9A9; 
+	background-color: #DCDCDC;
+	color: #000000;
+	padding: 0.5em;
+	margin-bottom: 0.5em;
+	margin-top: 2px; 
+
+}
+
+div.note table, div.tip table, div.important table, div.caution table, div.warning table {
+	width: 95%;
+	border: 2px solid #B0C4DE;
+	background-color: #F0F8FF;
+	color: #000000;
+	/* padding inside table area */
+	padding: 0.5em;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+}
+
+/* "Just the FAQs, ma'm." */
+.qandaset table {
+	border-collapse: collapse;
+}
+.qandaset {
+}
+.qandaset tr.question {
+}
+.qandaset tr.question td {
+	font-weight: bold;
+	padding: 0 0.5em;
+	margin: 0;
+}
+.qandaset tr.answer td {
+	padding: 0 0.5em 1.5em;
+	margin: 0;
+}
+.qandaset tr.question td, .qandaset tr.answer td {
+	vertical-align: top;
+}
+.qandaset strong {
+	text-align: right;
+}
+
+.article .table table {
+	border: 0;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.article .table table th {
+	padding: 5px;
+	text-align: center;
+}
+
+div.example {
+        padding: 10px;
+        border: 1px solid #bbb;
+        margin: 0.5em 2em;
+}
+                                                                                                     
+
+/* ====================================================================== *
+ * Sample stylesheet for Syntax::Highlight::HTML                          *
+ *                                                                        *
+ * Copyright (C)2004 Sebastien Aperghis-Tramoni, All Rights Reserved.     *
+ *                                                                        *
+ * This file is free software; you can redistribute it and/or modify      *
+ * it under the same terms as Perl itself.                                *
+ * ====================================================================== */
+
+.h-decl { color: #336699; font-style: italic; }   /* doctype declaration  */
+.h-pi   { color: #336699;                     }   /* process instruction  */
+.h-com  { color: #338833; font-style: italic; }   /* comment              */
+.h-ab   { color: #000000; font-weight: bold;  }   /* angles as tag delim. */
+.h-tag  { color: #993399; font-weight: bold;  }   /* tag name             */
+.h-attr { color: #000000; font-weight: bold;  }   /* attribute name       */
+.h-attv { color: #333399;                     }   /* attribute value      */
+.h-ent  { color: #cc3333;                     }   /* entity               */
+
+.h-lno  { color: #aaaaaa; background: #f7f7f7;}   /* line numbers         */
+
