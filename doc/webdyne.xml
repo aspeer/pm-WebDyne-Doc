@@ -104,7 +104,9 @@
           <para><command>perl -MCPAN -e "install WebDyne"</command></para>
 
           <para>To install the base WebDyne module, which includes the Apache
-          installer. To get the installer for Lighttpd (after the base package
+          installer. </para>
+
+          <para>To get the installer for Lighttpd (after the base package
           above is installed) run</para>
 
           <para><command>perl -MCPAN -e "install

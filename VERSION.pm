@@ -1,2 +1,2 @@
 package WebDyne::Doc::VERSION;
-$VERSION=(qw$Revision: 1.139 $)[1];
+$VERSION=(qw$Revision: 1.140 $)[1];
