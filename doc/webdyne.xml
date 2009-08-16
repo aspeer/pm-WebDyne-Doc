@@ -16,7 +16,7 @@
     </author>
 
     <copyright>
-      <year>!{! (localtime())[5]+1900 !}</year>
+      <year>2003-2009</year>
 
       <holder role="mailto:andrew.speer@isolutions.com.au">Andrew
       Speer</holder>
@@ -54,7 +54,7 @@
   <sect1>
     <title>Legal Information - Licensing and Copyright</title>
 
-    <para>WebDyne is Copyright © Andrew Speer 2005-2008. Webdyne is dual
+    <para>WebDyne is Copyright © Andrew Speer 2005-2009. Webdyne is dual
     licensed. It is released as free software released under the <link
     linkend="gpl">Gnu Public License (GPL)</link>, but is also available for
     commercial use under a proprietary license - please contact the author for
@@ -75,8 +75,8 @@
     <para>WebDyne relies heavily on modules and code developed and
     open-sourced by other authors. Without Perl, and Perl modules such as
     mod_perl/FCGI, CGI.pm, HTML::TreeBuilder and Storable, WebDyne would not
-    be possible. To the authors of those modules, and all the other modules
-    used to a lesser extent by WebDyne I convey my thanks.</para>
+    be possible. To the authors of those modules - and all the other modules
+    used to a lesser extent by WebDyne - I convey my thanks.</para>
   </sect1>
 
   <sect1>
@@ -97,43 +97,63 @@
           location using the PREFIX option in CPAN. Binaries are usually
           installed to <filename>/usr/bin</filename> by CPAN, but may vary by
           distribution/local configuration.</para>
+
+          <para>Assuming your CPAN environment is setup correctly you can run
+          the command:</para>
+
+          <para><command>perl -MCPAN -e "install WebDyne"</command></para>
+
+          <para>To install the base WebDyne module, which includes the Apache
+          installer. To get the installer for Lighttpd (after the base package
+          above is installed) run</para>
+
+          <para><command>perl -MCPAN -e "install
+          WebDyne::Install::Lighttpd"</command></para>
+
+          <para>To get the complete suite of WebDyne modules, including all
+          installers and externsion modules (Session manager etc.) run:</para>
+
+          <para><command>perl -MCPAN -e "install
+          Bundle::WebDyne"</command></para>
         </listitem>
       </varlistentry>
 
-      <varlistentry>
-        <term>Distribution packages</term>
-
-        <listitem>
-          <para>Pre-compiled binary packages (including all dependencies) are
-          available for selected of Linux distributions. Packages install to
-          <filename>/opt/webdyne</filename> by default, binaries are located
-          in <filename>/opt/webdyne/bin</filename></para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>Source code package</term>
-
-        <listitem>
-          <para>Installation from source (including all dependencies) is
-          available when there are no pre-compiled packages suitable for your
-          distribution. Installation from source requires that a functioning
-          compiler tool chain (and all required development libraries) are in
-          place. Destination of installed files is dictated by the PREFIX
-          option chosen during the installtion (see relevant section below),
-          or <filename>/usr</filename> if no PREFIX is given.</para>
-        </listitem>
-      </varlistentry>
+      <!--<varlistentry
+><term
+>Distribution packages</term
+><listitem
+><para
+>Pre-compiled binary packages (including all dependencies) are available for selected of Linux distributions. Packages install to <filename
+>/opt/webdyne</filename
+> by default, binaries are located in <filename
+>/opt/webdyne/bin</filename
+></para
+></listitem
+></varlistentry
+><varlistentry
+><term
+>Source code package</term
+><listitem
+><para
+>Installation from source (including all dependencies) is available when there are no pre-compiled packages suitable for your distribution. Installation from source requires that a functioning compiler tool chain (and all required development libraries) are in place. Destination of installed files is dictated by the PREFIX option chosen during the installtion (see relevant section below), or <filename
+>/usr</filename
+> if no PREFIX is given.</para
+></listitem
+></varlistentry
+>-->
     </variablelist>
 
     <important>
       <para>WebDyne must be initialised after installation. To get started
-      quickly run <command>wdapacheinit</command> to setup WebDyne for an
-      Apache/mod_perl environment, or <command>wdlighttpdinit</command> for a
-      Lighttpd/FastCGI environment. For Windows no additional steps are needed
-      - the installer will take care of initialization. If installing via CPAN
-      you will need to download the WebDyne::Install module to get the
-      installer files.</para>
+      quickly run <command>wdapacheinit</command> after CPAN installation to
+      setup WebDyne for an Apache/mod_perl environment, or
+      <command>wdlighttpdinit</command> for a Lighttpd/FastCGI environment
+      (make sure the Lighttpd FastCGI module is installed - it is often
+      packaged as a separate component in many Linux distributions). See the
+      <link lang="" linkend="sect1-initialisation">initialisation</link>
+      section for more information<!--, or <command
+>wdlighttpdinit</command
+> for a Lighttpd/FastCGI environment. For Windows no additional steps are needed - the installer will take care of initialization. If installing via CPAN you will need to download the WebDyne::Install module to get the installer files.--></para>
     </important>
 
     <sect2>
@@ -141,8 +161,9 @@
 
       <para>WebDyne requires mod_perl available when running with Apache, or
       FastCGI support if running with Lighttpd. Installation on Windows
-      requires ActiveState Perl be installed, and IIS or Apache be
-      available.</para>
+      requires ActiveState Perl be installed, and <!--IIS or -->Apache be
+      available. Installation with the Strawberry Perl distribition should
+      work, but has not been tested (feedback welcome).</para>
 
       <para>In pathological cases WebDyne can run in CGI mode (does not need
       mod_perl or FastCGI) however such a configuration is not supported by
@@ -167,109 +188,123 @@
       in other Windows environments but has not been tested.</para>
     </sect2>
 
-    <sect2>
-      <title>Perl CPAN</title>
+    <!--<sect2
+><title
+>Perl CPAN</title
+><para
+>Install from the Perl CPAN library using the following command:</para
+><screen
+>[root@localhost ~]#perl -MCPAN -e 'install WebDyne'
+</screen
+><para
+>The Perl CPAN installer will install WebDyne and should prompt for dependency installation if required. The base WebDyne module does not include the <command
+>wdapacheinit</command
+> or <command
+>wdlighttpdinit</command
+> commands - to obtain them install the WebDyne::Install package:</para
+><screen
+>[root@localhost ~]#perl -MCPAN -e 'install WebDyne::Install'
+</screen
+><para
+>Alternatively you can manually configure your Web server to using the instuctions in Initialisation section.</para
+></sect2
+>-->
 
-      <para>Install from the Perl CPAN library using the following
-      command:</para>
-
-      <screen>[root@localhost ~]#perl -MCPAN -e 'install WebDyne'
-</screen>
-
-      <para>The Perl CPAN installer will install WebDyne and should prompt for
-      dependency installation if required. The base WebDyne module does not
-      include the <command>wdapacheinit</command> or
-      <command>wdlighttpdinit</command> commands - to obtain them install the
-      WebDyne::Install package:</para>
-
-      <screen>[root@localhost ~]#perl -MCPAN -e 'install WebDyne::Install'
-</screen>
-
-      <para>Alternatively you can manually configure your Web server to using
-      the instuctions in Initialisation section.</para>
-    </sect2>
-
-    <sect2>
-      <title>Distribution specific RPM packages</title>
-
-      <para>Binary packages suitable for several popular distributions that
-      use Redhat Package Manager (RPM) for software installation are
-      available. Download a package appropriate for your distribution from the
-      <ulink url="http://proxcube.com/download/webdyne.psp">download
-      directory</ulink>.</para>
-
-      <para>Install using the <command>rpm</command> command or GUI
-      equivalent. <screen>[root@localhost ~]# <command>rpm -Uvh Bundle-WebDyne-Dist-1.10-1.fedora.3.heidelberg.i386.rpm</command>
-</screen></para>
-
-      <para>Substitute the RPM file name above for the one suited to your
-      distribution.</para>
-
-      <para>If a suitable binary package is not available for your
-      distribution you may be able to make one by rebuilding the source RPM
-      package</para>
-
-      <para><screen>[root@localhost ~]# <command>rpmbuild --rebuild Bundle-WebDyne-Dist-1.10-1.src.rpm</command>
-</screen>However for this to work successfully you will need to meet all the
-      pre-requisites needed when building the normal source code package (see
-      below).</para>
-
-      <para>Once completed you must run the <command>wdapacheinit</command> or
-      <command>wdlighttpdinit</command> command to initialize the application
-      (see below).</para>
-    </sect2>
-
-    <sect2>
-      <title>Source code bundle packages</title>
-
-      <para>The source code bundle package contains all WebDyne modules and
-      all required modules (dependencies) in one frozen tarball suitable for
-      installation.</para>
-
-      <para>Download the latest source code package from the WebDyne <ulink
-      url="http://proxcube.com/download/webdyne.psp">download
-      directory</ulink>.</para>
-
-      <para>Installation from source requires a full complement of development
-      tools including:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>GCC compiler and associated tool chain, including the
-          <command>patch</command> utility.</para>
-        </listitem>
-
-        <listitem>
-          <para>db4 development libraries</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Unpack the source distribution and start the build process
-      <screen>
-[root@localhost ~]# <command>tar -xvzf Bundle-WebDyne-Dist-1.10.tar.gz</command>
-[root@localhost ~]# <command>cd Bundle-WebDyne-Dist-1.10</command>
-[root@silicon Bundle-WebDyne-Dust-1.10]# <command>perl Makefile.PL</command>
+    <!--<sect2
+><title
+>Distribution specific RPM packages</title
+><para
+>Binary packages suitable for several popular distributions that use Redhat Package Manager (RPM) for software installation are available. Download a package appropriate for your distribution from the <ulink
+url="http://proxcube.com/download/webdyne.psp"
+>download directory</ulink
+>.</para
+><para
+>Install using the <command
+>rpm</command
+> command or GUI equivalent. <screen
+>[root@localhost ~]# <command
+>rpm -Uvh Bundle-WebDyne-Dist-1.10-1.fedora.3.heidelberg.i386.rpm</command
+>
+</screen
+></para
+><para
+>Substitute the RPM file name above for the one suited to your distribution.</para
+><para
+>If a suitable binary package is not available for your distribution you may be able to make one by rebuilding the source RPM package</para
+><para
+><screen
+>[root@localhost ~]# <command
+>rpmbuild - -rebuild Bundle-WebDyne-Dist-1.10-1.src.rpm</command
+>
+</screen
+>However for this to work successfully you will need to meet all the pre-requisites needed when building the normal source code package (see below).</para
+><para
+>Once completed you must run the <command
+>wdapacheinit</command
+> or <command
+>wdlighttpdinit</command
+> command to initialize the application (see below).</para
+></sect2
+><sect2
+><title
+>Source code bundle packages</title
+><para
+>The source code bundle package contains all WebDyne modules and all required modules (dependencies) in one frozen tarball suitable for installation.</para
+><para
+>Download the latest source code package from the WebDyne <ulink
+url="http://proxcube.com/download/webdyne.psp"
+>download directory</ulink
+>.</para
+><para
+>Installation from source requires a full complement of development tools including:</para
+><itemizedlist
+><listitem
+><para
+>GCC compiler and associated tool chain, including the <command
+>patch</command
+> utility.</para
+></listitem
+><listitem
+><para
+>db4 development libraries</para
+></listitem
+></itemizedlist
+><para
+>Unpack the source distribution and start the build process <screen
+>
+[root@localhost ~]# <command
+>tar -xvzf Bundle-WebDyne-Dist-1.10.tar.gz</command
+>
+[root@localhost ~]# <command
+>cd Bundle-WebDyne-Dist-1.10</command
+>
+[root@silicon Bundle-WebDyne-Dust-1.10]# <command
+>perl Makefile.PL</command
+>
 Checking if your kit is complete...
 Looks good
 Writing Makefile for Bundle::WebDyne::Dist
-[root@silicon Bundle-WebDyne-Dist-1.10]# <command>make install PREFIX=/opt/webdyne</command>
+[root@silicon Bundle-WebDyne-Dist-1.10]# <command
+>make install PREFIX=/opt/webdyne</command
+>
 
-</screen></para>
-
-      <para>The installer will now extract all the necessary files and compare
-      software package versions against installed versions (if any).</para>
-
-      <important>
-        <para>The <command>PREFIX=</command> component of the last command
-        tells the installer in which directory the software should be located.
-        If no <command>PREFIX</command> is given the installer will assume you
-        want to upgrade Perl system packages. Consequently the installer will
-        <emphasis>overwrite</emphasis> system installed Perl packages if they
-        are a lower version than is required.</para>
-      </important>
-
-      <para>The installer will then list the names and versions of all Perl
-      modules to be installed. <screen>
+</screen
+></para
+><para
+>The installer will now extract all the necessary files and compare software package versions against installed versions (if any).</para
+><important
+><para
+>The <command
+>PREFIX=</command
+> component of the last command tells the installer in which directory the software should be located. If no <command
+>PREFIX</command
+> is given the installer will assume you want to upgrade Perl system packages. Consequently the installer will <emphasis
+>overwrite</emphasis
+> system installed Perl packages if they are a lower version than is required.</para
+></important
+><para
+>The installer will then list the names and versions of all Perl modules to be installed. <screen
+>
 This distribution contains the following bundles and modules:
 
 [Bundle::WebDyne::Dist]                                [1.21 -&gt; 1.22]*
@@ -286,26 +321,21 @@ This distribution contains the following bundles and modules:
 Modules marked with an asterisk(*) will be installed or upgraded.
 Do you wish to continue (yes|all|quit) ?  [yes] 
 
-</screen></para>
-
-      <para>Follow the prompts and allow the installer to load the Perl
-      modules required. At completion the installer will summarise the success
-      or failure of the installation.</para>
-
-      <para>Most problems result from the failure to compile a Perl module
-      because a required development library (e.g. The db4 development library
-      needed by BerkeleyDB) is not installed. If errors occur ensure that all
-      supporting libraries for the failing Perl module are installed and try
-      again.</para>
-
-      <para>Once completed you must run the <command>wdapacheinit</command>
-      (or similar, e.g. wdlighttpdinit) command to initialize the application
-      (see below) - or configure your Web server to use WebDyne manually using
-      the manual initialisation instructions.</para>
-    </sect2>
+</screen
+></para
+><para
+>Follow the prompts and allow the installer to load the Perl modules required. At completion the installer will summarise the success or failure of the installation.</para
+><para
+>Most problems result from the failure to compile a Perl module because a required development library (e.g. The db4 development library needed by BerkeleyDB) is not installed. If errors occur ensure that all supporting libraries for the failing Perl module are installed and try again.</para
+><para
+>Once completed you must run the <command
+>wdapacheinit</command
+> (or similar, e.g. wdlighttpdinit) command to initialize the application (see below) - or configure your Web server to use WebDyne manually using the manual initialisation instructions.</para
+></sect2
+>-->
   </sect1>
 
-  <sect1>
+  <sect1 id="sect1-initialisation">
     <title>Initialisation</title>
 
     <para>After installation Web Server configuration files must be updated so
@@ -363,6 +393,11 @@ Do you wish to continue (yes|all|quit) ?  [yes]
 
 </screen></para>
 
+      <para>By default WebDyne will create a cache directory in
+      <filename>/opt/webdyne/cache</filename> on Linux systems. Use the
+      <option>--cache</option> command-line option to specify an alternate
+      location.</para>
+
       <para>Once <command>wdapacheinit</command> has been run the Apache
       server should be reloaded or restarted. Use a method appropriate for
       your Linux distribution. <screen>
@@ -376,6 +411,13 @@ Starting httpd:                                            [  OK  ]
       <para>If the Apache service does not restart, examine the error log
       (usually <filename>/var/log/httpd/error.log</filename>) for
       details.</para>
+
+      <para>The script will look for Apache components (binary, configuration
+      directories etc.) using common defaults. In the event that the script
+      gives an error indicating that it cannot find a binary, directory or
+      library you may need to specify the location manually. Run the script
+      with the <option>--help</option> option to determine the appropriate
+      syntax.</para>
     </sect2>
 
     <sect2>
@@ -408,12 +450,13 @@ AddHandler    perl-script    .psp
 PerlHandler   WebDyne
 
 
-#  Set a directory for storage of cache files.
+#  Set a directory for storage of cache files. Make sure this exists already is writable by the 
+#  Apache daemon process.
 #
 PerlSetVar    WEBDYNE_CACHE_DN    '/opt/webdyne/cache'
 
 
-#  Allow Apache to access the cache dir if it needs to
+#  Allow Apache to access the cache directory if it needs to server pre-compiled pages from there.
 #
 &lt;Directory "/opt/webdyne/cache"&gt;
 Order allow,deny
@@ -451,7 +494,8 @@ Deny from none
       <important>
         <para>WebDyne depends on the Lighttpd mod_fastcgi module (on RPM
         systems the package is sometimes called lighttpd-fastcgi). Please
-        ensure the it is installed before running the init code.</para>
+        ensure the it is installed before running the initialisation
+        script.</para>
       </important>
 
       <para><screen>
@@ -566,9 +610,26 @@ Starting lighttpd:                                         [  OK  ]
     <sect2>
       <title>SELinux</title>
 
-      <para>WebDyne will currently not work with SELinux enabled as installed.
-      Please contact the author if you want to run WebDyne under
-      SELinux</para>
+      <para>WebDyne will work with SELinux enabled. The WebDyne Apache
+      installer will attempt to use chcon and semanage to relabel the WebDyne
+      cache directory so that the Apache daemon can read and write files to
+      that area.</para>
+
+      <para>If you do not use the installer you will need to manually relabel
+      the directory with the command:</para>
+
+      <para><command>chcon -R -t httpd_sys_content_t
+      /opt/webdyne/cache</command></para>
+
+      <para>Under some distributions (RHEL, Centos) you may have to relabel
+      the entire WebDyne content area in order for it to work correctly,
+      i.e.:</para>
+
+      <para><command>chcon -R -t httpd_sys_content_t
+      /opt/webdyne</command></para>
+
+      <para>This may be neccessary even if you have used the installer
+      !</para>
     </sect2>
   </sect1>
 
@@ -1474,8 +1535,8 @@ sub hello {
       <para>So far all the code examples have just assumed that any call to a
       WebDyne API method has been successful - no error checking is done.
       WebDyne always returns "undef" if an API method call fails - which
-      should be checked for after every call in a best practice scenario.
-      </para>
+      should be checked for after every call in a best practice
+      scenario.</para>
 
       <example>
         <title></title>
