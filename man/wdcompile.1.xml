@@ -27,11 +27,11 @@
     by WebDyne when compiling psp pages.</para>
 
     <para>WebDyne uses the same parsing and compilation routines as wdcompile.
-    After compilation WebDyne stores the resulting data structure to a cache
-    directory using the Perl Storable module to speed up subsequent rendering
-    operations.</para>
+    After compilation WebDyne optionally stores the resulting data structure
+    to a cache directory using the Perl Storable module to speed up subsequent
+    rendering operations.</para>
 
-    <para>If the tree structure does not look correct when debugging with
+    <para>If the tree structure does not appear correct when debugging with
     wdcompile then it will probably not display as expected when rendered with
     WebDyne. Missing end quotes, closing tags and general HTML syntax problems
     can all make the parse tree misplace (or omit completely) blocks of

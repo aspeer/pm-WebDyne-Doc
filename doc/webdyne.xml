@@ -104,7 +104,7 @@
           <para><command>perl -MCPAN -e "install WebDyne"</command></para>
 
           <para>To install the base WebDyne module, which includes the Apache
-          installer. </para>
+          installer.</para>
 
           <para>To get the installer for Lighttpd (after the base package
           above is installed) run</para>
@@ -458,7 +458,7 @@ PerlHandler   WebDyne
 PerlSetVar    WEBDYNE_CACHE_DN    '/opt/webdyne/cache'
 
 
-#  Allow Apache to access the cache directory if it needs to server pre-compiled pages from there.
+#  Allow Apache to access the cache directory if it needs to serve pre-compiled pages from there.
 #
 &lt;Directory "/opt/webdyne/cache"&gt;
 Order allow,deny
@@ -537,6 +537,37 @@ Starting lighttpd:                                            [  OK  ]
 
       <para>Include the following section into the lighttpd configuration
       file:</para>
+
+      <para><screen>#  Include the Lighttpd FastCGI module - make sure it is present on the system, install if not
+#
+#
+server.modules += (
+    "mod_fastcgi",
+),
+
+
+#  Register the psp extension with the FastCGI module
+#
+fastcgi.server = ( 
+
+    ".psp" =&gt; ( 
+        "localhost" =&gt; (
+
+            #  Change paths as appropriate for your system, socket dir must be writable by
+            #  Lighttpd daemon process owner.
+            #
+            "socket"           =&gt; "/opt/webdyne/cache/wdfastcgi-webdyne.sock",
+            "bin-path"         =&gt; "/opt/webdyne/bin/wdfastcgi",
+
+            #  Optional, must be writable by Lighttpd daemon process owner
+            #
+            "bin-environment"  =&gt; (
+                "WEBDYNE_CACHE_DN"=&gt; "/opt/webdyne/cache"
+            )
+        )
+    )
+)
+</screen></para>
     </sect2>
 
     <sect2>
@@ -589,50 +620,43 @@ Starting lighttpd:                                         [  OK  ]
       through FastCGI.</para>
     </sect2>
 
-    <sect2>
-      <title>Windows Packages</title>
-
-      <para>WebDyne runs on Windows 2003 SP1 with Apache 2.0/mod_perl, Apache
-      2.2/mod_perl or IIS (with a FastCGI ISAPI filter written by Shane
-      Caraveo of ActiveState).</para>
-
-      <para>Download and run the WIndows installer, then choose the target
-      environment (IIS, Apache, or both) for WebDyne. No initialisation is
-      required - the installer will take care of it.<important>
-          <para>If installing for use with IIS the installer will configure
-          WebDyne to work with IIS sites 0 and 1 (usually the default). If you
-          have other virtual web sites you will need to map the .psp extension
-          manually, or run <command>wdiisinit &lt;server id&gt;</command> for
-          each site.</para>
-        </important></para>
-
-      <para></para>
-    </sect2>
-
-    <sect2>
-      <title>SELinux</title>
-
-      <para>WebDyne will work with SELinux enabled. The WebDyne Apache
-      installer will attempt to use chcon and semanage to relabel the WebDyne
-      cache directory so that the Apache daemon can read and write files to
-      that area.</para>
-
-      <para>If you do not use the installer you will need to manually relabel
-      the directory with the command:</para>
-
-      <para><command>chcon -R -t httpd_sys_content_t
-      /opt/webdyne/cache</command></para>
-
-      <para>Under some distributions (RHEL, Centos) you may have to relabel
-      the entire WebDyne content area in order for it to work correctly,
-      i.e.:</para>
-
-      <para><command>chcon -R -t httpd_sys_content_t
-      /opt/webdyne</command></para>
-
-      <para>This may be neccessary even if you have used the installer
-      !</para>
-    </sect2>
+    <!--<sect2
+><title
+>Windows Packages</title
+><para
+>WebDyne runs on Windows 2003 SP1 with Apache 2.0/mod_perl, Apache 2.2/mod_perl or IIS (with a FastCGI ISAPI filter written by Shane Caraveo of ActiveState).</para
+><para
+>Download and run the WIndows installer, then choose the target environment (IIS, Apache, or both) for WebDyne. No initialisation is required - the installer will take care of it.<important
+><para
+>If installing for use with IIS the installer will configure WebDyne to work with IIS sites 0 and 1 (usually the default). If you have other virtual web sites you will need to map the .psp extension manually, or run <command
+>wdiisinit &lt;server id&gt;</command
+> for each site.</para
+></important
+></para
+><para
+></para
+></sect2
+><sect2
+><title
+>SELinux</title
+><para
+>WebDyne will work with SELinux enabled. The WebDyne Apache installer will attempt to use chcon and semanage to relabel the WebDyne cache directory so that the Apache daemon can read and write files to that area.</para
+><para
+>If you do not use the installer you will need to manually relabel the directory with the command:</para
+><para
+><command
+>chcon -R -t httpd_sys_content_t /opt/webdyne/cache</command
+></para
+><para
+>Under some distributions (RHEL, Centos) you may have to relabel the entire WebDyne content area in order for it to work correctly, i.e.:</para
+><para
+><command
+>chcon -R -t httpd_sys_content_t /opt/webdyne</command
+></para
+><para
+>This may be neccessary even if you have used the installer !</para
+></sect2
+>-->
   </sect1>
 
   <sect1 id="examples">
@@ -1486,9 +1510,9 @@ you can get the best of both worlds.
       (invoked at line 3 of the page) on line 5 - In this case "line 5" means
       the 5th line down from the __PERL__ delimiter. The 32 digit hexadecimal
       number is the page unique ID - it is different for each page. WebDyne
-      places runs the code for each page in a package name space that includes
-      the page's UID - in this way pages with identical subroutine names (e.g.
-      two pages with a "hello" subroutine) can be accommodated with no
+      runs the code for each page in a package name space that includes the
+      page's UID - in this way pages with identical subroutine names (e.g. two
+      pages with a "hello" subroutine) can be accommodated with no
       collision.</para>
     </sect2>
 
@@ -1746,17 +1770,13 @@ $VAR1={
           file is readable by Perl.</para>
         </important>
 
-        <para>Alternatively you can configure per package constants in an
-        /etc/constant.pm file (is not present by default, you will have to
-        create it). Variables should be stored as if they were written out by
-        Data::Dumper, suitable for import via a Perl do() command.
-        Example:</para>
+        <para></para>
       </sect3>
 
       <sect3>
         <title>Setting WebDyne constants in Apache</title>
 
-        <para>WebDyne constants can be set in and Apache httpd.conf file using
+        <para>WebDyne constants can be set in an Apache httpd.conf file using
         the PerlSetVar directive:</para>
 
         <para><programlisting>
@@ -1827,9 +1847,8 @@ $WebDyne::Session::Constant::WEBDYNE_SESSION_ID_COOKIE_NAME='session_cookie';
 
             <listitem>
               <para>The name of the directory that will hold partially
-              compiled WebDyne cache files.
-              <filename><filename>/var/webdyne/cache</filename></filename> by
-              default</para>
+              compiled WebDyne cache files. Must exist and be writable by the
+              Apache process</para>
             </listitem>
           </varlistentry>
 

@@ -91,6 +91,8 @@ div.example {
 .h-com  { color: #338833; font-style: italic; }   /* comment              */
 .h-ab   { color: #000000; font-weight: bold;  }   /* angles as tag delim. */
 .h-tag  { color: #993399; font-weight: bold;  }   /* tag name             */
+.h-webdyne_tag  { color: #B22222; font-weight: bold;  }   /* tag name             */
+.h-cgi_tag  { color: #B8860b; font-weight: bold;  }   /* tag name             */
 .h-attr { color: #000000; font-weight: bold;  }   /* attribute name       */
 .h-attv { color: #333399;                     }   /* attribute value      */
 .h-ent  { color: #cc3333;                     }   /* entity               */

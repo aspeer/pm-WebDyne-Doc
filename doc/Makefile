@@ -1,5 +1,5 @@
 DIR_LDP=../ldp
-DIR_DOCBOOK_HTML_XSL=/usr/share/sgml/docbook/xsl-stylesheets-1.73.2/html
+#DIR_DOCBOOK_XSL_HTML=$(DIR_DOCBOOK_XSL)/html
 DIR_DOCBOOK_DSL=$(DIR_LDP)/ldp-custom.dsl
 DIR_DOCBOOK_DCL=/usr/share/doc/HTML/en/common/xml.dcl
 DIR_EXAMPLE=./example
@@ -11,10 +11,10 @@ DIR_EXAMPLE=./example
 	
 webdyne_examples := $(patsubst %.psp,%.html,$(wildcard $(DIR_EXAMPLE)/*.psp))
 
-all : webdyne.html 
+all :	webdyne.html 
 
 webdyne.psp : webdyne.xml $(webdyne_examples)
-	openjade -t xml -i html -d $(DIR_DOCBOOK_DSL)#html -V nochunks $(DIR_DOCBOOK_DCL) $< > $@
+	-openjade -t xml -i html -d $(DIR_DOCBOOK_DSL)#html -V nochunks $(DIR_DOCBOOK_DCL) $< > $@
 	perl -pi -e 's/#include \"(.*)\"/qx[cat $$1]/e' $@
 
 webdyne.html : webdyne.psp

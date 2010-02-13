@@ -26,8 +26,8 @@
 
     <para>The wddump(1) command displays internal the data structure of a
     compiled WebDyne psp file from the WebDyne cache directory. wddump is of
-    limited diagnostic use - the wdcompile(1) tool is more suitable for
-    troubleshooting HTML tree errors.</para>
+    limited diagnostic use - the <command>wdcompile(1)</command> tool is more
+    suitable for troubleshooting HTML tree errors.</para>
 
     <para>wddump can be useful to see a picture of the final data structure
     looks like on complex pages built via many filters, combining static and

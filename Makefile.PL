@@ -51,12 +51,15 @@ sub MY::postamble {
 
 return <<'MAKE_FRAG';
 
-DIR_DOCBOOK=doc
-DIR_MANPAGE=man
+DIR_DOCBOOK=./doc
+DIR_MANPAGE=./man
+DIR_DOCBOOK_XSL=/usr/share/sgml/docbook/xsl-stylesheets-1.75.2
+
 DIRS=$(DIR_DOCBOOK) $(DIR_MANPAGE)
+export
 
 webdyne_doc : 
-	cd $(DIR_DOCBOOK); $(MAKE) $(MFLAGS)
+	$(MAKE) -C $(DIR_DOCBOOK)
 
 webdyne_man :
 	cd $(DIR_MANPAGE); $(MAKE) $(MFLAGS)
@@ -65,7 +68,7 @@ all :: webdyne_doc webdyne_man
 
 clean ::
 	$(ECHO) cleaning up in .
-	-for d in $(DIRS); do (cd $$d; $(MAKE) clean ); done
+	-for d in $(DIRS); do $(MAKE) -C $$d clean; done
 
 MAKE_FRAG
 }
