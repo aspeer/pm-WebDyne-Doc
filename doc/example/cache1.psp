@@ -2,14 +2,17 @@
 <head>
 <title>Caching</title>
 <!-- Set static and cache meta parameters -->
-<meta name="WebDyne" content="cache=&cache;static=1"/>
+<meta name="WebDyne" content="cache=&cache;static=1">
 </head>
 
 <body>
+<p>
 
 This page will update once every 10 seconds.
+
 <p>
-Hello World !{! scalar localtime !}
+
+Hello World !{! localtime() !}
 
 </body>
 </html>

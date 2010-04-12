@@ -12,7 +12,7 @@ Hello World
 </perl>
 
 <p>
-<!-- This one is not -->
+<!-- So is this one, even though it is outside the <perl>..</perl> block -->
 <block name="hello">
 Again
 </block>

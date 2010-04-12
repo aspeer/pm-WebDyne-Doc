@@ -29,8 +29,8 @@ Request Protocol:
 <!-- CGI params -->
 
 <form>
-Your Name: <textfield name="name" default="Test" size="12"/>
-<submit name="Submit"/>
+Your Name: <textfield name="name" default="Test" size="12">
+<submit name="Submit">
 </form>
 <p>
 <!-- Short Way -->
@@ -50,7 +50,7 @@ You Entered:
 <form>
 <p>
 Favourite colour 1:
-<popup_menu name="popup_menu" values="@{qw(red green blue)}"/>
+<popup_menu name="popup_menu" values="@{qw(red green blue)}">
 
 
 <!-- Hashes -->
@@ -58,7 +58,7 @@ Favourite colour 1:
 <p>
 Favourite colour 2:
 <popup_menu name="popup_menu" 
-	values="%{red=>Red, green=>Green, blue=>Blue}"/>
+	values="%{red=>Red, green=>Green, blue=>Blue}">
 
 </form>
 

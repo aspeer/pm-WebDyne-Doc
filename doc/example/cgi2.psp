@@ -3,10 +3,8 @@
 <body>
 <p>
 
-<!-- Will not work - there is no </html> to denote the end of the HTML -->
-
 Hello World <perl method="hello"/>
 
 __PERL__
 
-sub hello { return scalar localtime }
+sub hello { return localtime() }

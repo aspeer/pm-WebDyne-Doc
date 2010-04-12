@@ -42,7 +42,7 @@ sub mtime {
 	
 	my $srce_pn=$r->filename();
     	my $srce_mtime=(stat($srce_pn))[9];
-	my $srce_localmtime=scalar localtime $srce_mtime;
+	my $srce_localmtime=localtime $srce_mtime;
 
         return $self->render( mtime=>$srce_localmtime )
 

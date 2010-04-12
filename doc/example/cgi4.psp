@@ -3,8 +3,8 @@
 <body>
 <p>
 <form>
-Enter your name: <textfield name="name"/>
-<submit/>
+Enter your name: <textfield name="name">
+<submit>
 </form>
 
 <!-- Quick and dirty, no perl code at all -->

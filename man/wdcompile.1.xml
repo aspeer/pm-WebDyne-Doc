@@ -9,7 +9,7 @@
   </refmeta>
 
   <refnamediv>
-    <refname>wdcompile</refname>
+    <refname><command>wdcompile</command></refname>
 
     <refpurpose>parse and compile WebDyne pages</refpurpose>
   </refnamediv>
@@ -19,28 +19,6 @@
       <command>wdcompile [OPTIONS] FILE</command>
     </cmdsynopsis>
   </refsynopsisdiv>
-
-  <refsection>
-    <title>Description</title>
-
-    <para>The wdcompile(1) command displays the internal data structure used
-    by WebDyne when compiling psp pages.</para>
-
-    <para>WebDyne uses the same parsing and compilation routines as wdcompile.
-    After compilation WebDyne optionally stores the resulting data structure
-    to a cache directory using the Perl Storable module to speed up subsequent
-    rendering operations.</para>
-
-    <para>If the tree structure does not appear correct when debugging with
-    wdcompile then it will probably not display as expected when rendered with
-    WebDyne. Missing end quotes, closing tags and general HTML syntax problems
-    can all make the parse tree misplace (or omit completely) blocks of
-    HTML/WebDyne code.</para>
-
-    <para>By default wdcompile will show the data structure after all parsing
-    and optimisation stages have been completed. You can display various
-    intermediate stages using the options below.</para>
-  </refsection>
 
   <refsection>
     <title>Options</title>
@@ -58,9 +36,9 @@
           <term>-0</term>
 
           <listitem>
-            <para>Stop and display internal data structure after parsing with
-            HTML::TreeBuilder. This stage shows the HTML syntax tree generated
-            from the source file.</para>
+            <para>Stop and display internal data structure after parsing
+            with<classname> HTML::TreeBuilder</classname>. This stage shows
+            the HTML syntax tree generated from the source file.</para>
           </listitem>
         </varlistentry>
 
@@ -92,22 +70,45 @@
 
           <listitem>
             <para>Show any WebDyne meta data found in the source file. WebDyne
-            meta data are hints or instructions contained in the &lt;meta&gt;
-            sections with the name "WebDyne". If found such meta data is
-            removed from the resulting HTML parse tree and stored in a
-            separate data structure. This option will show that data structire
-            if it exists.</para>
+            meta data are hints or instructions contained in the
+            <markup>&lt;meta&gt;</markup> sections with the name "WebDyne". If
+            found such meta data is removed from the resulting HTML parse tree
+            and stored in a separate data structure. This option will show
+            that data structire if it exists.</para>
           </listitem>
         </varlistentry>
       </variablelist></para>
   </refsection>
 
   <refsection>
+    <title>Description</title>
+
+    <para>The <command>wdcompile</command> command displays the internal data
+    structure used by WebDyne when compiling psp pages.</para>
+
+    <para>WebDyne uses the same parsing and compilation routines as
+    <command>wdcompile</command>. After compilation WebDyne optionally stores
+    the resulting data structure to a cache directory using the Perl
+    <classname>Storable</classname> module to speed up subsequent rendering
+    operations.</para>
+
+    <para>If the tree structure does not appear correct when debugging with
+    <command>wdcompile</command> then it will probably not display as expected
+    when rendered with WebDyne. Missing end quotes, closing tags and general
+    HTML syntax problems can all make the parse tree misplace (or omit
+    completely) blocks of HTML/WebDyne code.</para>
+
+    <para>By default <command>wdcompile</command> will show the data structure
+    after all parsing and optimisation stages have been completed. You can
+    display various intermediate stages using the options below.</para>
+  </refsection>
+
+  <refsection>
     <title>Notes</title>
 
-    <para>The wdcompile will not run any code in the __PERL__ section of a psp
-    file. It will also not execute any WebDyne filters that may be called by
-    the source file.</para>
+    <para>The wdcompile will not run any code in the <code>__PERL__</code>
+    section of a psp file. It will also not execute any WebDyne filters that
+    may be called by the source file.</para>
   </refsection>
 
   <refsection>
@@ -130,14 +131,13 @@
   <refsection>
     <title>Author</title>
 
-    <para>Written by Andrew Speer,
-    <email>andrew.speer@webdyne.org</email></para>
+    <para>Written by Andrew Speer, <email>andrew@webdyne.org</email></para>
   </refsection>
 
   <refsection>
     <title>Copying</title>
 
-    <para>Copyright © 2008 Andrew Speer. Free use of this software is granted
-    under the terms of the GNU General Public License (GPL)</para>
+    <para>Copyright © 2008-2010 Andrew Speer. Free use of this software is
+    granted under the terms of the GNU General Public License (GPL)</para>
   </refsection>
 </refentry>

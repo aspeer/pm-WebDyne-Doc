@@ -39,7 +39,7 @@ WriteMakefile(
 
 
     'macro'				  =>   {
-        COPYRIGHT			  =>  'Copyright (c) 2003 Andrew Speer, All rights reserved',
+        COPYRIGHT			  =>  'Copyright (C) 2003 Andrew Speer, All rights reserved',
 	LICENSE				  =>  'GPL: GNU General Public License'
     }
 
@@ -55,18 +55,23 @@ DIR_DOCBOOK=./doc
 DIR_MANPAGE=./man
 DIR_DOCBOOK_XSL=/usr/share/sgml/docbook/xsl-stylesheets-1.75.2
 
+DIR_WEBDYNE_DEV_BIN=$(CURDIR)/../WebDyne/bin
+DIR_WEBDYNE_DEV=$(CURDIR)/../WebDyne
+
+DIR_WEBDYNE_SITE_DOC=$(CURDIR)/../WebDyne-Site/lib/WebDyne/Site/HTML/html/documentation
+
 DIRS=$(DIR_DOCBOOK) $(DIR_MANPAGE)
 export
 
-webdyne_doc : 
+all	:: 
 	$(MAKE) -C $(DIR_DOCBOOK)
+	$(MAKE) -C $(DIR_MANPAGE)
 
-webdyne_man :
-	cd $(DIR_MANPAGE); $(MAKE) $(MFLAGS)
+install ::
+	$(MAKE) -C $(DIR_DOCBOOK) $@
+	$(MAKE) -C $(DIR_MANPAGE) $@
 
-all :: webdyne_doc webdyne_man
-
-clean ::
+clean	::
 	$(ECHO) cleaning up in .
 	-for d in $(DIRS); do $(MAKE) -C $$d clean; done
 

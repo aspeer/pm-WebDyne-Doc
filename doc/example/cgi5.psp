@@ -9,7 +9,7 @@
 
 Your Country ?
 <perl method="countries">
-<popup_menu values="${countries_ar}"/>
+<popup_menu values="${countries_ar}">
 </perl>
 
 </form>

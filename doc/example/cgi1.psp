@@ -1,18 +1,22 @@
-<start_html title="A simple example"/>
+<!-- The same form from the CGI example -->
 
+<start_html title="A simple example">
 <h1>A Simple Example</h1>
-<start_form/>
+<start_form>
 <p>
-What's your name ? <textfield name="name"/>
+What's your name ? <textfield name="name">
 <p>
 What's the combination ? <checkbox_group 
-	name="words" values="@{qw(eenie meenie minie moe)}" defaults="@{qw(eenie minie)}"/>
+	name="words" values="@{qw(eenie meenie minie moe)}" defaults="@{qw(eenie minie)}">
 <p>
 What's your favourite color ? <popup_menu 
-	name="color" values="@{qw(red green blue chartreuse)}"/>
-<submit/>
-<end_form/>
+	name="color" values="@{qw(red green blue chartreuse)}">
+<submit>
+<end_form>
 <hr>
+
+
+<!-- This section only rendered when form submitted -->
 
 <perl method="answers">
 <p>
@@ -23,7 +27,6 @@ The keywords are: <em>${words}</em>
 Your favorite color is: <em>+{color}</em>
 </perl>
 
-<end_html/>
 __PERL__
 
 sub answers {

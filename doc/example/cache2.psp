@@ -2,8 +2,8 @@
 
 <start_html>
 <form method="GET">
-Get sales results for:&nbsp;<popup_menu name="month" values="@{qw(January February March)}"/>
-<submit/>
+Get sales results for:&nbsp;<popup_menu name="month" values="@{qw(January February March)}">
+<submit>
 </form>
 
 <perl method="results">
@@ -11,7 +11,7 @@ Sales results for +{month}: $${results}
 </perl>
 
 <hr>
-This page generated: !{! scalar localtime !}
+This page generated: !{! localtime() !}
 <end_html>
 
 __PERL__

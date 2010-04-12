@@ -11,12 +11,12 @@
       <surname>Speer</surname>
 
       <affiliation>
-        <address><email>andrew.speer@webdyne.org</email></address>
+        <address><email>andrew@webdyne.org</email></address>
       </affiliation>
     </author>
 
     <copyright>
-      <year>2003-2009</year>
+      <year>2006-2010</year>
 
       <holder role="mailto:andrew.speer@isolutions.com.au">Andrew
       Speer</holder>
@@ -31,30 +31,29 @@
   <sect1>
     <title>Introduction</title>
 
-    <para>WebDyne is a mod_perl/FastCGI based HTML dynamic content engine. It
-    allows for realtime generation of HTML documents using Perl code and/or
-    modules. It can potentially make small projects more readable and large
-    projects more manageable.</para>
+    <para>WebDyne is a Perl based dynamic HTML engine. It works with web
+    servers (or from the command line) to render HTML documents with embedded
+    Perl code.</para>
 
-    <para>Once WebDyne is installed any file with a <filename>.psp</filename>
-    extension is treated as a WebDyne source file. It is parsed for WebDyne
-    specific tags (such as &lt;perl&gt; and &lt;block&gt;) which are
-    interpreted and executed on the server as appropriate. The resulting
-    output is then sent to the browser. Once pages are parsed once they are
-    optionally stored in a partially compiled format, speeding up subsequent
-    processing.</para>
+    <para>Once WebDyne is installed and initialised to work with a web server
+    any file with a <filename>.psp</filename> extension is treated as a
+    WebDyne source file. It is parsed for WebDyne or CGI.pm pseudo-tags (such
+    as <markup>&lt;perl&gt;</markup> and <markup>&lt;block&gt;</markup> for
+    WebDyne, or <markup>&lt;start_html&gt;</markup>,<markup>
+    &lt;popup_menu&gt;</markup> for CGI.pm) which are interpreted and executed
+    on the server. The resulting output is then sent to the browser.</para>
 
-    <para>The aim of WebDyne is to make coding web pages with Perl components
-    a faster, easier and more maintainable experience. You can be the judge of
-    whether it succeeds in that aim by examining the <link
-    linkend="examples">examples</link> below and trying it out for
-    yourself.</para>
+    <para>Pages are parsed once, then optionally stored in a partially
+    compiled format - speeding up subsequent processing by avoiding the need
+    to re-parse a page each time it is loaded. WebDyne works with common web
+    server persistant/resident Perl modules such as mod_perl and FastCGI to
+    provide fast dynamic content.</para>
   </sect1>
 
   <sect1>
     <title>Legal Information - Licensing and Copyright</title>
 
-    <para>WebDyne is Copyright © Andrew Speer 2005-2009. Webdyne is dual
+    <para>WebDyne is Copyright © Andrew Speer 2006-2010. Webdyne is dual
     licensed. It is released as free software released under the <link
     linkend="gpl">Gnu Public License (GPL)</link>, but is also available for
     commercial use under a proprietary license - please contact the author for
@@ -63,8 +62,8 @@
     <para>WebDyne is written in Perl and uses modules from <ulink
     url="http://www.cpan.org">CPAN</ulink> (the Comprehensive Perl Archive
     Network). CPAN modules are Copyright © the owner/author, and are available
-    in source form by downloading the "Source Code" version of WebDyne or from
-    CPAN directly. All CPAN modules used are covered by the <ulink
+    in source form by downloading from CPAN directly. All CPAN modules used
+    are covered by the <ulink
     url="http://www.perl.com/pub/a/language/misc/Artistic.html">Perl Artistic
     License</ulink></para>
   </sect1>
@@ -95,7 +94,8 @@
           CPAN configuration, however in most cases it wil be to the Perl site
           library location. WebDyne supports installation to an alternate
           location using the PREFIX option in CPAN. Binaries are usually
-          installed to <filename>/usr/bin</filename> by CPAN, but may vary by
+          installed to <filename>/usr/bin</filename> or
+          <filename>/usr/local/bin</filename> by CPAN, but may vary by
           distribution/local configuration.</para>
 
           <para>Assuming your CPAN environment is setup correctly you can run
@@ -163,9 +163,8 @@
 
       <para>WebDyne requires mod_perl available when running with Apache, or
       FastCGI support if running with Lighttpd. Installation on Windows
-      requires ActiveState Perl be installed, and <!--IIS or -->Apache be
-      available. Installation with the Strawberry Perl distribition should
-      work, but has not been tested (feedback welcome).</para>
+      requires ActiveState Perl be installed, and <!--IIS or -->Apache/mod_perl
+      be available.</para>
 
       <para>In pathological cases WebDyne can run in CGI mode (does not need
       mod_perl or FastCGI) however such a configuration is not supported by
@@ -186,8 +185,9 @@
       available.</para>
 
       <para>WebDyne has been installed onto a Windows 2003 SP1 server running
-      Apache 2.0/mod_perl, Apache 2.2/mod_perl and IIS. The installer may work
-      in other Windows environments but has not been tested.</para>
+      Apache 2.0/mod_perl, Apache 2.2/mod_perl and IIS. The
+      <command>wdapacheinit</command> installer may work in other Windows
+      environments but has not been tested.</para>
     </sect2>
 
     <!--<sect2
@@ -341,8 +341,11 @@ Do you wish to continue (yes|all|quit) ?  [yes]
     <title>Initialisation</title>
 
     <para>After installation Web Server configuration files must be updated so
-    that the WebDyne software will be used to generate output when a psp file
-    is invoked.</para>
+    that the WebDyne software will be used to generate output when a .psp file
+    is invoked. WebDyne comes bundled with an installer for Apache
+    (<command>wdapacheinit</command>), and installers for selected other web
+    servers (e.g. <classname>WebDyne::Install::Lighttpd</classname>) are
+    available separately from CPAN.</para>
 
     <para>Initialisation can be done via one of two methods:</para>
 
@@ -396,9 +399,11 @@ Do you wish to continue (yes|all|quit) ?  [yes]
 </screen></para>
 
       <para>By default WebDyne will create a cache directory in
-      <filename>/opt/webdyne/cache</filename> on Linux systems. Use the
-      <option>--cache</option> command-line option to specify an alternate
-      location.</para>
+      <filename>/var/cache/webdyne</filename> on Linux systems when a default
+      CPAN install is done (no PREFIX specified). If a PREFIX is specified the
+      cache directory will be created as <filename>PREFIX/cache</filename>.
+      Use the <option>--cache</option> command-line option to specify an
+      alternate location.</para>
 
       <para>Once <command>wdapacheinit</command> has been run the Apache
       server should be reloaded or restarted. Use a method appropriate for
@@ -425,23 +430,26 @@ Starting httpd:                                            [  OK  ]
     <sect2>
       <title>Manual configuration of Apache</title>
 
-      <para>If the <command>wdapacheinit</command> command does not work on
-      your system the Apache config files can be modified manually.</para>
+      <para>If the <command>wdapacheinit</command> command does not work as
+      expected on your system the Apache config files can be modified
+      manually.</para>
 
       <para>Include the following section in the Apache httpd.conf file (or
       create a webdyne.conf file if you distribution supports conf.d style
       configuration files):</para>
 
       <para><screen>#  Put this in if WebDyne was installed using the PREFIX option to its own directory - replace
-#  /opt/webdyne with the correct path to the perl5lib.pm library.
+#  /opt/webdyne with the correct path to the perl5lib.pl library.
 #
 #  This will adjust the @INC path so all WebDyne modules (and modules WebDyne relies on) can be
 #  located and loaded.
+#  
+#  Not needed if installed to default Perl library location, but does not hurt to leave in.
 #
-PerlRequire   "/opt/webdyne/bin/perl5lib.pm"
+PerlRequire   "/opt/webdyne/bin/perl5lib.pl"
 
 
-#  Preload the WebDyne module
+#  Preload the WebDyne and WebDyne::Compile module
 #
 PerlModule    WebDyne WebDyne::Compile
 
@@ -488,9 +496,10 @@ Deny from none
       <title>Running <command>wdlighttpdinit</command> to initialise the
       software for use with Lighttpd/FastCGI</title>
 
-      <para>Once the WebDyne software in installed it must be initialized. The
-      <command>wdlighttpdinit</command> command must be run to update the
-      Lighttpd configuration files so that WebDyne pages will be correctly
+      <para>If using WebDyne with Lighttpd download and install the
+      <classname>WebDyne::Install::Lighttpd</classname> module. Then run the
+      <command>wdlighttpdinit</command> command to update the Lighttpd
+      configuration files so that WebDyne pages will be correctly
       interpreted:</para>
 
       <important>
@@ -570,7 +579,7 @@ fastcgi.server = (
 </screen></para>
     </sect2>
 
-    <sect2>
+    <!-- <sect2>
       <title id="fastcgi_setup">Configuring other FastCGI servers, or systems
       where <command>wdlighttpdinit</command> is not supported.</title>
 
@@ -618,7 +627,7 @@ Starting lighttpd:                                         [  OK  ]
 
       <para>The lighttpd web server should now be ready to run .psp files
       through FastCGI.</para>
-    </sect2>
+    </sect2>-->
 
     <!--<sect2
 ><title
@@ -758,9 +767,10 @@ sub greeting { return \0 }</programlisting></para>
     <sect2>
       <title>Use of the &lt;perl&gt; tag for in-line code.</title>
 
-      <para>The above examples show several variations of the &lt;perl&gt; tag
-      in use. Perl code that is enclosed by &lt;perl&gt;..&lt;/perl&gt; tags
-      is called <emphasis>in-line</emphasis> code:</para>
+      <para>The above examples show several variations of the
+      <markup>&lt;perl&gt;</markup> tag in use. Perl code that is enclosed by
+      <markup>&lt;perl&gt;..&lt;/perl&gt;</markup> tags is called
+      <emphasis>in-line</emphasis> code:</para>
 
       <example>
         <title>Simple in-line perl code</title>
@@ -788,9 +798,9 @@ sub greeting { return \0 }</programlisting></para>
       <para>Which can be pretty handy, but looks a bit cumbersome - the tags
       interfere with the flow of the text, making it harder to read. For this
       reason in-line perl can also be flagged in a WebDyne page using the
-      shortcuts <command>! {! .. !}</command>, or by the use of processing
-      instructions (<emphasis role="bold">&lt;? .. ?&gt;</emphasis>)
-      e.g.:</para>
+      shortcuts <markup>!{! .. !}</markup>, or by the use of processing
+      instructions (<emphasis role="bold"><markup>&lt;? ..
+      ?&gt;</markup></emphasis>) e.g.:</para>
 
       <example>
         <title>in-line code using alternative denotation</title>
@@ -799,9 +809,9 @@ sub greeting { return \0 }</programlisting></para>
         url="example/inline3.psp">Run</ulink></para>
       </example>
 
-      <para>The <emphasis role="bold">! {! .. !}</emphasis> denotation can
-      also be used in tag attributes (processing instructions, and
-      &lt;perl&gt; tags cannot):</para>
+      <para>The <markup>!{! .. !}</markup> denotation can also be used in tag
+      attributes (processing instructions, and <markup>&lt;perl&gt;</markup>
+      tags cannot):</para>
 
       <example>
         <title>in-line code in tag attributes</title>
@@ -816,9 +826,9 @@ sub greeting { return \0 }</programlisting></para>
 
       <para>Any code that is not co-mingled with the HTML of a document is
       <emphasis>non-inline</emphasis> code. It can be segmented from the
-      content HTML using the __PERL__ delimiter, or by being kept in a
-      completely different package and referenced as an external Perl
-      subroutine call. An example of non-inline code:</para>
+      content HTML using the <token>__PERL__</token> delimiter, or by being
+      kept in a completely different package and referenced as an external
+      Perl subroutine call. An example of non-inline code:</para>
 
       <example>
         <title></title>
@@ -827,9 +837,9 @@ sub greeting { return \0 }</programlisting></para>
         url="example/hello2.psp">Run</ulink></para>
       </example>
 
-      <para>Note that the &lt;perl&gt; tag in this example is explicitly
-      closed and does not contain any content. However non-inline code can
-      enclose HTML or text within the tags:<example>
+      <para>Note that the <markup>&lt;perl&gt;</markup> tag in this example is
+      explicitly closed and does not contain any content. However non-inline
+      code can enclose HTML or text within the tags:<example>
           <title></title>
 
           <para><programlisting>#include "example/noninline1.html"</programlisting><ulink
@@ -841,8 +851,8 @@ sub greeting { return \0 }</programlisting></para>
 
       <para>In order for text or HTML within a non-inline perl block to be
       displayed, it must be "rendered" into the output stream by the WebDyne
-      engine. This is done by calling the render() method. Let's try that
-      again:</para>
+      engine. This is done by calling the <methodname>render()</methodname>
+      method. Let's try that again:</para>
 
       <example>
         <title></title>
@@ -867,8 +877,8 @@ sub greeting { return \0 }</programlisting></para>
     <sect2>
       <title>Passing parameters to subroutines</title>
 
-      <para>The behaviour of a called __PERL__ subroutine can be modified by
-      passing parameters which it can act on:</para>
+      <para>The behaviour of a called <token>__PERL__</token> subroutine can
+      be modified by passing parameters which it can act on:</para>
 
       <example>
         <title></title>
@@ -880,13 +890,14 @@ sub greeting { return \0 }</programlisting></para>
     </sect2>
 
     <sect2>
-      <title>Notes about __PERL__ sections</title>
+      <title>Notes about <token>__PERL__</token> sections</title>
 
-      <para>Code in __PERL__ sections has some particular properties. __PERL__
-      code is only executed once. Subroutines defined in a __PERL__ section
-      can be called as many times as you want, but the code outside of
-      subroutines is only executed the first time a page is loaded. No matter
-      how many times it is run, in the following code $i will always be
+      <para>Code in <token>__PERL__</token> sections has some particular
+      properties.<token> __PERL__</token> code is only executed once.
+      Subroutines defined in a<token> __PERL__</token> section can be called
+      as many times as you want, but the code outside of subroutines is only
+      executed the first time a page is loaded. No matter how many times it is
+      run, in the following code <varname>$i</varname> will always be
       1:</para>
 
       <example>
@@ -897,9 +908,9 @@ sub greeting { return \0 }</programlisting></para>
         <para><ulink url="example/noninline4.psp">Run</ulink></para>
       </example>
 
-      <para>Lexical variables are not accessible outside of the __PERL__
-      section due to the way perl's eval() function works. The following
-      example will fail:</para>
+      <para>Lexical variables are not accessible outside of the
+      <token>__PERL__</token> section due to the way perl's eval() function
+      works. The following example will fail:</para>
 
       <example>
         <title></title>
@@ -909,8 +920,8 @@ sub greeting { return \0 }</programlisting></para>
         <para><ulink url="example/noninline5.psp">Run</ulink></para>
       </example>
 
-      <para>Package defined vars declared in a __PERL__ section do work, with
-      caveats:</para>
+      <para>Package defined vars declared in a <token>__PERL__</token> section
+      do work, with caveats:</para>
 
       <example>
         <title></title>
@@ -940,8 +951,9 @@ sub greeting { return \0 }</programlisting></para>
       <para>Note the passing of the <parameter>time</parameter> value as a
       parameter to be substituted when the text is rendered.</para>
 
-      <para>Combine this with multiple call to the render() routine to display
-      dynamic data:</para>
+      <para>Combine this with multiple call to the
+      <methodname>render()</methodname> routine to display dynamic
+      data:</para>
 
       <example>
         <title></title>
@@ -963,23 +975,31 @@ sub greeting { return \0 }</programlisting></para>
 
       <itemizedlist>
         <listitem>
-          <para>@ {} for arrays, e.g. @{'foo', bar'}</para>
+          <para><varname>@{var,var,..}</varname> for arrays, e.g.
+          <varname>@{'foo', 'bar'}</varname></para>
         </listitem>
 
         <listitem>
-          <para>% {} for hashes, e.g. %{ a=&gt;1, b=&gt;2 }</para>
+          <para><varname>%{key=&gt;value, key=&gt;value, ..}</varname> for
+          hashes e.g.<varname> %{ a=&gt;1, b=&gt;2 }</varname></para>
         </listitem>
 
         <listitem>
-          <para>+ {} for CGI parameters</para>
+          <para><varname>+{varname}</varname> for CGI form parameters, e.g.
+          <varname>+{firstname}</varname></para>
         </listitem>
 
         <listitem>
-          <para>* {} for Environment variables</para>
+          <para><varname>*{varname} </varname>for environment variables, e.g.
+          <varname>*{HTTP_USER_AGENT}</varname></para>
         </listitem>
 
         <listitem>
-          <para>^ {} for Apache request object ($r) methods</para>
+          <para><varname>^{requestmethod}</varname> for Apache request
+          (<varname>$r=Apache-&gt;request</varname>) object methods, e.g.
+          <varname>^{protocol}</varname>. Only available for in
+          Apache/mod_perl, and only useful for request methods that return a
+          scalar value.</para>
         </listitem>
       </itemizedlist>
 
@@ -1038,31 +1058,6 @@ sub greeting { return \0 }</programlisting></para>
         <para><programlisting>#include "example/cgi1.html"</programlisting><ulink
         url="example/cgi1.psp">Run</ulink></para>
       </example>
-
-      <para><important>
-          <para>In the CGI.pm synopsis example the code does not finish with a
-          &lt;/html&gt; tag, or the CGI.pm function end_html() - but our
-          ported example does. In a WebDyne template the __PERL__ delimiter
-          <emphasis role="bold">must</emphasis> come after the completion of
-          the HTML page, i.e. after either a &lt;/html&gt; tag, or the
-          end_html() CGI.pm equivalent. For example the following template
-          will <emphasis role="bold">not</emphasis> work:</para>
-
-          <example>
-            <title></title>
-
-            <para><programlisting>#include "example/cgi2.html"</programlisting><ulink
-            url="example/cgi2.psp">Run</ulink></para>
-          </example>
-
-          <para>Note the lack of a closing &lt;/html&gt; tag. The templating
-          engine sees the __PERL__ delimiter, but notices we are still in the
-          body of the HTML page, so just treats the code as plain text.
-          .</para>
-
-          <para>Always finish a template with &lt;/html&gt; or
-          &lt;end_html&gt; before starting a __PERL__ section</para>
-        </important></para>
     </sect2>
 
     <sect2>
@@ -1158,15 +1153,6 @@ you can get the best of both worlds.
       an opening body tag. Just enter the body content, then finish with
       &lt;end_html&gt; to generate the closing &lt;body&gt; and &lt;html&gt;
       tags. See the CGI.pm manual page for more information.</para>
-
-      <para><note>
-          <para>Make sure you finish the page with &lt;end_html&gt;, not
-          &lt;/end_html&gt; - the latter is not a valid tag (since you never
-          had an opening &lt;end_html&gt; ). If you do accidentally do this
-          any __PERL__ blocks after the incorrect tag will not work - because
-          the parser never saw a closing &lt;/html&gt; tag and considers the
-          __PERL__ block part of the body !</para>
-        </note></para>
     </sect2>
   </sect1>
 
@@ -1224,8 +1210,7 @@ you can get the best of both worlds.
         <para><ulink url="example/block4.psp">Run</ulink></para>
       </example>
 
-      <para>But don't mix the two styles - the following will not work as you
-      expect:</para>
+      <para>You can mix the two styles:</para>
 
       <example>
         <title></title>
@@ -1367,7 +1352,13 @@ you can get the best of both worlds.
       <para>WebDyne has the ability to cache the compiled version of a dynamic
       page according to specs you set via the API. When coupled with
       pages/blocks that are flagged as static this presents some powerful
-      possibilities.</para>
+      possibilities.<important>
+          <para>Caching will only work if <varname>$WEBDYNE_CACHE_DN</varname>
+          is defined and set to a directory that the web server has write
+          access to. If caching does not work check that
+          $<varname>WEBDYNE_CACHE_DN</varname> is defined and permissions set
+          correctly for your web server.</para>
+        </important></para>
 
       <para>There are many potential examples, but consider this one: you have
       a page that generates output by making a complex query to a database,
@@ -1382,14 +1373,14 @@ you can get the best of both worlds.
       database/Web server.</para>
 
       <para>WebDyne knows to enable the caching code by looking for a meta
-      tag, or by loading the "WebDyne::Cache" module in a __PERL__
-      block.</para>
+      tag, or by loading the <classname>WebDyne::Cache</classname> module in a
+      <token>__PERL__</token> block.</para>
 
       <para>The cache code can command WebDyne to recompile a page based on
       any arbitrary criteria it desires. As an example the following code will
       recompile the page every 10 seconds. If viewed in between refresh
-      intervals WebDyne will serve up the cached HTML result using
-      r$-&gt;lookup_file(), which is very fast.</para>
+      intervals WebDyne will serve up the cached HTML result using Apache
+      r$-&gt;lookup_file() or the FCGI equivalent, which is very fast.</para>
 
       <para>Try it by running the following example and clicking refresh a few
       times over a 20 second interval</para>
@@ -1591,6 +1582,167 @@ sub hello {
     <title>WebDyne API</title>
 
     <sect2>
+      <title>WebDyne tags</title>
+
+      <para>Reference of WebDyne tags and supported attributes</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>&lt;perl&gt;</term>
+
+          <listitem>
+            <para>Run Perl code either in-line (between the
+            &lt;perl&gt;..&lt;/perl&gt;) tags, or non-inline via the method
+            attribute</para>
+
+            <variablelist>
+              <varlistentry>
+                <term>method=[Module::Name]::method</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. Call an external perl
+                  subroutine in a pre-loaded module, or a subroutine in a
+                  __PERL__ block at then of the HTML: file</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>param=scalar|array|hash</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. Parameters to be
+                  supplied to perl routine. Supply array and hash using @{1,2}
+                  and %{a=&gt;1, b=&gt;2} conventions respectively.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>static=1</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. This Perl code to be
+                  run once only and the output cached for all subsequent
+                  requests.</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>&lt;block&gt;</term>
+
+          <listitem>
+            <para>Block of HTML code to be optionally rendered if desired by
+            call to <methodname>render_block</methodname> Webdyne
+            method:</para>
+
+            <variablelist>
+              <varlistentry>
+                <term>name=identifier</term>
+
+                <listitem>
+                  <para><emphasis>Mandatory</emphasis>. The name for this
+                  block of HTML.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>display=1</term>
+
+                <listitem>
+                  <para><emphasis>Optional.</emphasis> Force display of this
+                  block even if not invoked by render_block WebDyne method.
+                  Useful for prototyping.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>static=1</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. This block rendered
+                  once only and the output cached for all subsequent
+                  requests</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>&lt;include&gt;</term>
+
+          <listitem>
+            <para>Include HTML or text from an external file</para>
+
+            <variablelist>
+              <varlistentry>
+                <term>file=filename</term>
+
+                <listitem>
+                  <para><emphasis>Mandatory</emphasis>. Name of file we want
+                  to include. Can be relative to current directory or absolute
+                  path.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>head=1</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. File is an HTML file
+                  and we want to include just the &lt;head&gt; section</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>body=1</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. File is an HTML file
+                  and we want to include just the &lt;body&gt; section.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>block=blockname</term>
+
+                <listitem>
+                  <para><emphasis>Optional</emphasis>. File is a .psp file and
+                  we want to include a &lt;block&gt; section from that
+                  file.</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>&lt;dump&gt;</term>
+
+          <listitem>
+            <para>Display CGI paramters in dump format via CGI-&gt;Dump call.
+            Useful for debugging. Only rendered if
+            <varname>$WEBDYNE_DUMP_FLAG</varname> global set to 1 in WebDyne
+            constants (see below)</para>
+
+            <variablelist>
+              <varlistentry>
+                <term>display=1</term>
+
+                <listitem>
+                  <para><emphasis>Optional.</emphasis> Force display even if
+                  <varname>$WEBDYNE_DUMP_FLAG</varname> global not set</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2>
       <title>WebDyne methods</title>
 
       <para>When running Perl code within a WebDyne page the very first
@@ -1727,19 +1879,19 @@ sub hello {
 
       <para>Constants defined in the WebDyne::Constant package control various
       aspects of how WebDyne behaves. Constants can be modified globally by
-      altering a system file (<filename>/etc/constant.pm</filename> under
-      Linux distros), or by altering configuration parameters within the
-      Apache or lighttpd/FastCGI web servers.</para>
+      altering a system file (<filename>/etc/webdyne.pm</filename> under Linux
+      distros), or by altering configuration parameters within the Apache or
+      lighttpd/FastCGI web servers.</para>
 
       <sect3>
         <title id="webdyne_constants">Global constants file</title>
 
         <para>WebDyne will look for a system constants file under
-        <filename>/etc/constant.pm</filename> and set package variables
+        <filename>/etc/webdyne.pm</filename> and set package variables
         according to values found in that file. The file is in Perl
         Data::Dumper format, and takes the format:</para>
 
-        <programlisting># sample /etc/constant.pm file
+        <programlisting># sample /etc/webdyne.pm file
 #
 $VAR1={
         WebDyne::Constant =&gt; {
@@ -1765,9 +1917,9 @@ $VAR1={
 
         <important>
           <para>Always check the syntax of the
-          <filename>/etc/constant.pm</filename> file after editing by running
-          <command>perl -c -w /etc/constant.pm</command> to check that the
-          file is readable by Perl.</para>
+          <filename>/etc/webdyne.pm</filename> file after editing by running
+          <command>perl -c -w /etc/webdyne.pm</command> to check that the file
+          is readable by Perl.</para>
         </important>
 
         <para></para>
@@ -1853,7 +2005,7 @@ $WebDyne::Session::Constant::WEBDYNE_SESSION_ID_COOKIE_NAME='session_cookie';
           </varlistentry>
 
           <varlistentry>
-            <term><varname>$WEBDYNE_STARTUP_CACHE_FLUSH_DN</varname></term>
+            <term><varname>$WEBDYNE_STARTUP_CACHE_FLUSH</varname></term>
 
             <listitem>
               <para>Remove all existing disk cache files at Apache startup.
@@ -1992,7 +2144,7 @@ $WebDyne::Session::Constant::WEBDYNE_SESSION_ID_COOKIE_NAME='session_cookie';
             <listitem>
               <para>Do not compact source file whitespace as per
               HTML::TreeBuilder no_space_compacting function. Defaults to
-              1</para>
+              0</para>
             </listitem>
           </varlistentry>
 
@@ -2019,7 +2171,7 @@ $WebDyne::Session::Constant::WEBDYNE_SESSION_ID_COOKIE_NAME='session_cookie';
 
             <listitem>
               <para>By default WebDyne will render blocks targeted by a
-              render_block() call, even that are outside the originating
+              render_block() call, even those that are outside the originating
               &lt;perl&gt;..&lt;/perl&gt; section that made the call. Set to 0
               to not render such blocks. Defaults to 1</para>
             </listitem>
@@ -2050,6 +2202,96 @@ $WebDyne::Session::Constant::WEBDYNE_SESSION_ID_COOKIE_NAME='session_cookie';
 
             <listitem>
               <para>Maximum size of a POST request. Defaults to 512Kb</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_TEXT</varname></term>
+
+            <listitem>
+              <para>Display simplified errors in plain text rather than using
+              HTML. Useful in interal WebDyne development only. By default
+              this is 0 =&gt; the HTML error handler will be used.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_SHOW</varname></term>
+
+            <listitem>
+              <para>Display the error message. Only applicable in the HTML
+              error handler</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_SOURCE_CONTEXT_SHOW</varname></term>
+
+            <listitem>
+              <para>Display a fragment of the .psp source file around where
+              the error occurred to give some context of where the error
+              happened. Set to 0 to not display context.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_SOURCE_CONTEXT_LINES_PRE</varname></term>
+
+            <listitem>
+              <para>Number of lines of the source file before the error
+              occurred to display. Defaults to 4</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_SOURCE_CONTEXT_LINES_POST</varname></term>
+
+            <listitem>
+              <para>Number of lines of the source file after the error
+              occurred to display. Defaults to 4</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_SOURCE_CONTEXT_LINE_FRAGMENT_MAX</varname></term>
+
+            <listitem>
+              <para>Max line length to show. Defaults to 80 characters.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_BACKTRACE_SHOW</varname></term>
+
+            <listitem>
+              <para>Show a backtrace of modules through which the error
+              propagated. On by default, set to 0 to disable,</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_ERROR_BACKTRACE_SHORT</varname></term>
+
+            <listitem>
+              <para>Remove WebDyne internal modules from backtrace. Off by
+              default, set to 1 to enable.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term><varname>$WEBDYNE_AUTOLOAD_POLLUTE</varname></term>
+
+            <listitem>
+              <para>When a method is called from a &lt;perl&gt; routine the
+              WebDyne AUTOLOAD method must search multiple modules for the
+              method owner. Setting this flag to 1 will pollute the WebDyne
+              name space with the method name so that AUTOLOAD is not called
+              if that method is used again (for the duration of the Perl
+              process, not just that call to the page). This is dangerous and
+              can cause confusion if different modules use the same name. In
+              very strictly controlled environments - and ebev then only in
+              some cases - it can result is faster throughput. Off by default,
+              set to 1 to enable.</para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -2188,8 +2430,11 @@ $HTTP["url"] =~"^/example/" {
     <sect2>
       <title>Command Line Utilities</title>
 
-      <para>Command line utilities are fairly basic at this stage. By default
-      they are located in <filename>/opt/webdyne/bin</filename>.</para>
+      <para>Command line utilities are fairly basic at this stage.
+      Installation location will vary depening on your distribution - most
+      will default to <filename>/usr/local/bin</filename>, but may be
+      installed elsewhere in some cases, especially if you have nominated a
+      <option>PREFIX</option> option when using CPAN.</para>
 
       <variablelist>
         <varlistentry>
@@ -2254,7 +2499,7 @@ $HTTP["url"] =~"^/example/" {
 
       <variablelist>
         <varlistentry>
-          <term><filename>/etc/constant.pm</filename></term>
+          <term><filename>/etc/webdyne.pm</filename></term>
 
           <listitem>
             <para>Used for storage of local constants that override WebDyne
@@ -2291,7 +2536,7 @@ $HTTP["url"] =~"^/example/" {
     packages as a template.</para>
 
     <para>The following gives an overview of the standard packages included in
-    the distribution</para>
+    the distribution, or downloadable as extensions from CPAN.</para>
 
     <sect2>
       <title id="webdyne_chain">WebDyne::Chain</title>

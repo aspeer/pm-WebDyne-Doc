@@ -36,6 +36,19 @@ my %CGI_TAG_IMPLICIT=map { $_=>1 } qw(
 *Syntax::Highlight::HTML::webdyne=\%WEBDYNE_TAG;
 *Syntax::Highlight::HTML::webdyne=\%CGI_TAG_IMPLICIT;
 
+my %classes = (
+    declaration   => 'h-decl',  # declaration <!DOCTYPE ...>
+    process       => 'h-pi',    # process instruction <?xml ...?>
+    comment       => 'h-com',   # comment <!-- ... -->
+    angle_bracket => 'h-ab',    # the characters '<' and '>' as tag delimiters
+    tag_name      => 'h-tag',   # the tag name of an element
+    webdyne_tag_name      => 'h-webdyne_tag',   # the tag name of an element
+    cgi_tag_name      => 'h-cgi_tag',   # the tag name of an element
+    attr_name     => 'h-attr',  # the attribute name
+    attr_value    => 'h-attv',  # the attribute value
+    entity        => 'h-ent',   # any entities: &eacute; &#171;
+    line_number   => 'h-lno',   # line number
+);
 
 *Syntax::Highlight::HTML::_highlight_tag=sub {
 
@@ -44,19 +57,6 @@ my %CGI_TAG_IMPLICIT=map { $_=>1 } qw(
     my $tagname = shift;
     my $attr = shift;
 
-    my %classes = (
-        declaration   => 'h-decl',  # declaration <!DOCTYPE ...>
-        process       => 'h-pi',    # process instruction <?xml ...?>
-        comment       => 'h-com',   # comment <!-- ... -->
-        angle_bracket => 'h-ab',    # the characters '<' and '>' as tag delimiters
-        tag_name      => 'h-tag',   # the tag name of an element
-        webdyne_tag_name      => 'h-webdyne_tag',   # the tag name of an element
-        cgi_tag_name      => 'h-cgi_tag',   # the tag name of an element
-        attr_name     => 'h-attr',  # the attribute name
-        attr_value    => 'h-attv',  # the attribute value
-        entity        => 'h-ent',   # any entities: &eacute; &#171;
-        line_number   => 'h-lno',   # line number
-    );
     
     $_[0] =~ s|&([^;]+;)|<span class="$classes{entity}">&amp;$1</span>|g;
     
@@ -97,6 +97,15 @@ my %CGI_TAG_IMPLICIT=map { $_=>1 } qw(
     }
   
 };
+
+
+*Syntax::Highlight::HTML::_highlight_text=sub {
+  my $self = shift;
+  $_[0] =~ s|&([^;]+;)|<span class="$classes{entity}">&amp;$1</span>|g;
+  $_[0] =~ s|__PERL__|&#095&#095PERL&#095&#095|g;
+  $self->{output} .= $_[0];
+};
+
 
 #  Open file, prepare to suck in all of it at once.
 #

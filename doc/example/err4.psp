@@ -1,9 +1,8 @@
 <start_html title="Error">
 <form>
-<submit name="Error" value="Click here for error !"/>
+<submit name="Error" value="Click here for error !">
 </form>
-<perl method="foo"/>
-<end_html>
+<perl method="foo"/><end_html>
 
 __PERL__
 

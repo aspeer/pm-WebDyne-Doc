@@ -26,7 +26,7 @@ sub hello0 {
 	
 	my $self=shift();
 	my @html;
-	my $time=scalar localtime;
+	my $time=localtime();
 	for (my $i=0; $i<3; $i++) { 
 		push @html, $self->render( time=>$time, i=>$i) 
 	};
@@ -38,7 +38,7 @@ sub hello1 {
 	#  Alternate syntax using print
 	#
 	my $self=shift();
-	my $time=scalar localtime;
+	my $time=localtime();
 	for (my $i=0; $i<3; $i++) { 
 		print $self->render( time=>$time, i=>$i)
 	};

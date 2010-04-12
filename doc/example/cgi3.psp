@@ -6,9 +6,9 @@
 <!-- Note use of CGI.pm derived textfield tag -->
 
 <form>
-Enter your name: <textfield name="name"/>
+Enter your name: <textfield name="name">
 &nbsp;
-<submit/>
+<submit>
 </form>
 
 

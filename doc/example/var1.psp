@@ -16,6 +16,6 @@ __PERL__
 
 sub hello { 
 	my $self=shift();
-	my $time=scalar localtime;
+	my $time=localtime();
 	$self->render( time=>$time );
 }

@@ -5,7 +5,7 @@
 
 <!-- Very quick and dirty block of perl code -->
 
-Copyright (c) <perl>(localtime())[5]+1900</perl> Foobar Gherkin corp.
+Copyright (C) <perl>(localtime())[5]+1900</perl> Foobar Gherkin corp.
 
 </body>
 </html>

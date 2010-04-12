@@ -12,4 +12,4 @@ Hello World <perl method="hello"/>
 
 __PERL__
 
-sub hello { return scalar localtime }
+sub hello { return localtime }

@@ -12,7 +12,7 @@ Your Country ?
 
 <!-- Note the addition of the static attribute -->
 
-<popup_menu values="${countries_ar}"/>
+<popup_menu values="${countries_ar}">
 </perl>
 
 </form>

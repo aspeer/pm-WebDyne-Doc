@@ -22,19 +22,6 @@
   </refsynopsisdiv>
 
   <refsection>
-    <title>Description</title>
-
-    <para>The wddump(1) command displays internal the data structure of a
-    compiled WebDyne psp file from the WebDyne cache directory. wddump is of
-    limited diagnostic use - the <command>wdcompile(1)</command> tool is more
-    suitable for troubleshooting HTML tree errors.</para>
-
-    <para>wddump can be useful to see a picture of the final data structure
-    looks like on complex pages built via many filters, combining static and
-    dynamic blocks etc.</para>
-  </refsection>
-
-  <refsection>
     <title>Options</title>
 
     <para><variablelist>
@@ -46,6 +33,20 @@
           </listitem>
         </varlistentry>
       </variablelist></para>
+  </refsection>
+
+  <refsection>
+    <title>Description</title>
+
+    <para>The <command>wddump</command> command displays internal the data
+    structure of a compiled WebDyne psp file from the WebDyne cache directory.
+    <command>wddump</command> is of limited diagnostic use - the
+    <command>wdcompile</command> tool is more suitable for troubleshooting
+    HTML tree errors.</para>
+
+    <para><command>wddump</command> can be useful to see a picture of the
+    final data structure looks like on complex pages built via many filters,
+    combining static and dynamic blocks etc.</para>
   </refsection>
 
   <refsection>
@@ -61,14 +62,13 @@
   <refsection>
     <title>Author</title>
 
-    <para>Written by Andrew Speer,
-    <email>andrew.speer@webdyne.org</email></para>
+    <para>Written by Andrew Speer, <email>andrew@webdyne.org</email></para>
   </refsection>
 
   <refsection>
     <title>Copying</title>
 
-    <para>Copyright © 2008 Andrew Speer. Free use of this software is granted
-    under the terms of the GNU General Public License (GPL)</para>
+    <para>Copyright © 2008-2010 Andrew Speer. Free use of this software is
+    granted under the terms of the GNU General Public License (GPL)</para>
   </refsection>
 </refentry>

@@ -2,14 +2,13 @@
 <head><title>Hello World</title></head>
 <body>
 
-<!-- Same quick and dirty code with alternative denotation -->
+<!-- Same code with alternative denotation -->
 
-Copyright (c) !{! (localtime())[5]+1900 !} Foobar Gherkin corp.
+The time is: !{! localtime() !}
 
 <p>
 
-Copyright (c) <? (localtime())[5]+1900 ?> Foobar Gherkin corp.
-
+The time is:  <? localtime() ?>
 
 
 </body>

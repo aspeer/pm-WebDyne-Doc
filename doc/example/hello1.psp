@@ -5,7 +5,7 @@
 
 <!-- Note the perl tags -->
 
-Hello World <perl>scalar localtime</perl>
+Hello World <perl> localtime() </perl>
 
 </body>
 </html>

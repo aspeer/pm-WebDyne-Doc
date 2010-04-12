@@ -11,14 +11,36 @@ DIR_EXAMPLE=./example
 	
 webdyne_examples := $(patsubst %.psp,%.html,$(wildcard $(DIR_EXAMPLE)/*.psp))
 
-all :	webdyne.html 
+all	:	webdyne.pdf
 
 webdyne.psp : webdyne.xml $(webdyne_examples)
 	-openjade -t xml -i html -d $(DIR_DOCBOOK_DSL)#html -V nochunks $(DIR_DOCBOOK_DCL) $< > $@
 	perl -pi -e 's/#include \"(.*)\"/qx[cat $$1]/e' $@
+	perl -pi -e 's/__PERL__/&#095&#095PERL&#095&#095/g' $@
+	perl -pi -e 's/\!{\!(.*?)\!}/&#033{&#033$1&#033}/g' $@
+	perl -pi -e 's/\@{(.*?)}/&#064{$$1}/g' $@
+	perl -pi -e 's/\%{(.*?)}/&#037{$$1}/g' $@
+	perl -pi -e 's/\+{(.*?)}/&#043{$$1}/g' $@
+	perl -pi -e 's/\*{(.*?)}/&#042{$$1}/g' $@
+	perl -pi -e 's/\^{(.*?)}/&#094{$$1}/g' $@
 
 webdyne.html : webdyne.psp
 	perl /opt/webdyne/bin/wdrender $< > $@
+	perl -pi -e 's/&#095/_/g' $@
+	perl -pi -e 's/&#033/!/g' $@
+	perl -pi -e 's/&#064/@/g' $@
+	perl -pi -e 's/&#037/%/g' $@
+	perl -pi -e 's/&#043/+/g' $@
+	perl -pi -e 's/&#042/*/g' $@
+	perl -pi -e 's/&#094/^/g' $@
+	
+webdyne.pdf : webdyne.html
+	htmldoc -f webdyne.pdf webdyne.html
 
-clean : 
+clean	: 
 	rm -f webdyne.psp webdyne.html $(DIR_EXAMPLE)/*.html
+
+install :: webdyne.pdf
+	cp -R * $(DIR_WEBDYNE_SITE_DOC)
+	cp webdyne.pdf $(DIR_WEBDYNE_DEV)/doc
+	
