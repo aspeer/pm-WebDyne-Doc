@@ -118,7 +118,7 @@ $/=undef;
 
 #  Create new formatter object, format and close file handle
 #
-my $html_or=Syntax::Highlight::HTML->new() ||
+my $html_or=Syntax::Highlight::HTML->new( pre=> 0 ) ||
   die("unable to create Syntax::Highlight::HTML object !");
 my $html=$html_or->parse(<$fh>);
 $fh->close();
@@ -132,6 +132,6 @@ $html=~s/}/&#125;/g;
 
 #  Done, dump to screen
 #
-print $html;
+print qq[<pre class="prettyprint"><code class="lang-html">$html</code></pre>];
 
 

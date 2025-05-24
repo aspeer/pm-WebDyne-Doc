@@ -37,17 +37,24 @@
 
     <para>Once WebDyne is installed and initialised to work with a web server
     any file with a <filename>.psp</filename> extension is treated as a
-    WebDyne source file. It is parsed for WebDyne or CGI.pm pseudo-tags (such
-    as <markup>&lt;perl&gt;</markup> and <markup>&lt;block&gt;</markup> for
-    WebDyne, or <markup>&lt;start_html&gt;</markup>,<markup>
-    &lt;popup_menu&gt;</markup> for CGI.pm) which are interpreted and executed
+    WebDyne source file. It is parsed for WebDyne or HTML shortcut pseudo-tags
+    (such as <markup>&lt;perl&gt;</markup> and <markup>&lt;block&gt;</markup>
+    for WebDyne, or <markup>&lt;start_html&gt;</markup>,<markup>
+    &lt;popup_menu&gt;</markup> shortcuts) which are interpreted and executed
     on the server. The resulting output is then sent to the browser.</para>
 
     <para>Pages are parsed once, then optionally stored in a partially
     compiled format - speeding up subsequent processing by avoiding the need
     to re-parse a page each time it is loaded. WebDyne works with common web
-    server persistant/resident Perl modules such as mod_perl and FastCGI to
+    server persistant/resident Perl modules such as mod_perl and PSGI to
     provide fast dynamic content.</para>
+
+    <para>Alternate syntaxes are available to enable WebDyne code to be used
+    with editors that do no recognise custom HTML tags, and the syntax
+    supports the use of PHP type processing instruction tags (<markup>&lt;?
+    perl ?&gt;</markup>) or <markup>&lt;div&gt;</markup> tags (via data
+    attributes such as <markup>&lt;div data-webdyne-perl&gt;</markup>) to
+    define WebDyne blocks </para>
   </sect1>
 
   <sect1>
@@ -73,9 +80,10 @@
 
     <para>WebDyne relies heavily on modules and code developed and
     open-sourced by other authors. Without Perl, and Perl modules such as
-    mod_perl/FCGI, CGI.pm, HTML::TreeBuilder and Storable, WebDyne would not
-    be possible. To the authors of those modules - and all the other modules
-    used to a lesser extent by WebDyne - I convey my thanks.</para>
+    mod_perl/PSGI, HTML::Tiny, HTML::TreeBuilder, Storable and many other,
+    WebDyne would not be possible. To the authors of those modules - and all
+    the other modules used to a lesser extent by WebDyne - I convey my
+    thanks.</para>
   </sect1>
 
   <sect1>
@@ -190,8 +198,7 @@
       environments but has not been tested.</para>
     </sect2>
 
-    <!--<sect2
-><title
+    <!--<sect2><title
 >Perl CPAN</title
 ><para
 >Install from the Perl CPAN library using the following command:</para
@@ -681,7 +688,7 @@ Starting lighttpd:                                         [  OK  ]
       WebDyne can be implemented. First the most basic usage example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/hello1.html"</programlisting><ulink
         url="example/hello1.psp">Run</ulink></para>
@@ -691,7 +698,7 @@ Starting lighttpd:                                         [  OK  ]
       content. Lets try again:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/hello2.html"</programlisting><ulink
         url="example/hello2.psp">Run</ulink></para>
@@ -702,14 +709,14 @@ Starting lighttpd:                                         [  OK  ]
       displayed. Although WebDyne will happily display returned strings or
       scalars, it is more efficient to return a scalar reference, e.g.:</para>
 
-      <para><programlisting>#  Works
+      <para><programlisting language="perl">#  Works
 #
 sub greeting { print "Hello World" }
 
 
 #  Is the same as
 #
-sub greeting { return "Hello World }
+sub greeting { return "Hello World" }
 sub greeting { my $var="Hello World"; return $var }
 
 
@@ -753,7 +760,7 @@ sub greeting { return \0 }</programlisting></para>
       in the <filename>@INC</filename> path.</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/hello3.html"</programlisting></para>
 
@@ -831,7 +838,7 @@ sub greeting { return \0 }</programlisting></para>
       Perl subroutine call. An example of non-inline code:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/hello2.html"</programlisting><ulink
         url="example/hello2.psp">Run</ulink></para>
@@ -840,7 +847,7 @@ sub greeting { return \0 }</programlisting></para>
       <para>Note that the <markup>&lt;perl&gt;</markup> tag in this example is
       explicitly closed and does not contain any content. However non-inline
       code can enclose HTML or text within the tags:<example>
-          <title></title>
+          <title/>
 
           <para><programlisting>#include "example/noninline1.html"</programlisting><ulink
           url="example/noninline1.psp">Run</ulink></para>
@@ -855,7 +862,7 @@ sub greeting { return \0 }</programlisting></para>
       method. Let's try that again:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/noninline2.html"</programlisting><ulink
         url="example/noninline2.psp">Run</ulink></para>
@@ -867,7 +874,7 @@ sub greeting { return \0 }</programlisting></para>
       concatenated and send to the browser.</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/noninline3.html"</programlisting><ulink
         url="example/noninline3.psp">Run</ulink></para>
@@ -881,7 +888,7 @@ sub greeting { return \0 }</programlisting></para>
       be modified by passing parameters which it can act on:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/noninline7.html"</programlisting></para>
 
@@ -901,7 +908,7 @@ sub greeting { return \0 }</programlisting></para>
       1:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/noninline4.html"</programlisting></para>
 
@@ -913,7 +920,7 @@ sub greeting { return \0 }</programlisting></para>
       works. The following example will fail:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/noninline5.html"</programlisting></para>
 
@@ -924,7 +931,7 @@ sub greeting { return \0 }</programlisting></para>
       do work, with caveats:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/noninline6.html"</programlisting></para>
 
@@ -942,7 +949,7 @@ sub greeting { return \0 }</programlisting></para>
       modify the content of a rendered text block. A simple example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/var1.html"</programlisting><ulink
         url="example/var1.psp">Run</ulink></para>
@@ -956,7 +963,7 @@ sub greeting { return \0 }</programlisting></para>
       data:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/var2.html"</programlisting><ulink
         url="example/var2.psp">Run</ulink></para>
@@ -965,7 +972,7 @@ sub greeting { return \0 }</programlisting></para>
       <para>Variables can also be used to modify tag attributes:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/var3.html"</programlisting><ulink
         url="example/var3.psp">Run</ulink></para>
@@ -1007,13 +1014,13 @@ sub greeting { return \0 }</programlisting></para>
       but should provide an example of potential variable usage:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/var4.html"</programlisting><ulink
         url="example/var4.psp">Run</ulink></para>
       </example>
 
-      <para></para>
+      <para/>
     </sect2>
 
     <sect2>
@@ -1025,7 +1032,7 @@ sub greeting { return \0 }</programlisting></para>
       following synopsis example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>use CGI qw/:standard/;
    print header,
@@ -1053,7 +1060,7 @@ sub greeting { return \0 }</programlisting></para>
       look something like this:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cgi1.html"</programlisting><ulink
         url="example/cgi1.psp">Run</ulink></para>
@@ -1085,7 +1092,7 @@ sub greeting { return \0 }</programlisting></para>
 
       <para>So there is some readability benefit, however the real advantage
       shows when we consider the next example:<example>
-          <title></title>
+          <title/>
 
           <para><programlisting>#include "example/cgi5.html"</programlisting><ulink
           url="example/cgi5.psp">Run</ulink></para>
@@ -1109,7 +1116,7 @@ you can get the best of both worlds.
       calling the CGI() method:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cgi3.html"</programlisting><ulink
         url="example/cgi3.psp">Run</ulink></para>
@@ -1124,7 +1131,7 @@ you can get the best of both worlds.
       example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cgi4.html"</programlisting><ulink
         url="example/cgi4.psp">Run</ulink></para>
@@ -1141,7 +1148,7 @@ you can get the best of both worlds.
       for yourself):</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cgi6.html"</programlisting></para>
 
@@ -1172,7 +1179,7 @@ you can get the best of both worlds.
       output generated within Perl code. An example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/block1.html"</programlisting><ulink
         url="example/block1.psp">Run</ulink></para>
@@ -1182,7 +1189,7 @@ you can get the best of both worlds.
       with the target name will be rendered:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/block2.html"</programlisting><ulink
         url="example/block2.psp">Run</ulink></para>
@@ -1192,7 +1199,7 @@ you can get the best of both worlds.
       take parameters to substitute into the text:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/block3.html"</programlisting><ulink
         url="example/block3.psp">Run</ulink></para>
@@ -1203,7 +1210,7 @@ you can get the best of both worlds.
       them. e.g. the following is OK:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/block4.html"</programlisting></para>
 
@@ -1213,7 +1220,7 @@ you can get the best of both worlds.
       <para>You can mix the two styles:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/block5.html"</programlisting></para>
 
@@ -1228,7 +1235,7 @@ you can get the best of both worlds.
       include tag:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/include1.html"</programlisting><ulink
         url="example/include1.psp">Run</ulink></para>
@@ -1267,7 +1274,7 @@ you can get the best of both worlds.
       is loaded. An example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/static1.html"</programlisting><ulink
         url="example/static1.psp">Run</ulink></para>
@@ -1288,7 +1295,7 @@ you can get the best of both worlds.
       sections:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/static2.html"</programlisting><ulink
         url="example/static2.psp">Run</ulink></para>
@@ -1299,7 +1306,7 @@ you can get the best of both worlds.
       tag which flags the entire page as static:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/static3.html"</programlisting><ulink
         url="example/static3.psp">Run</ulink></para>
@@ -1310,7 +1317,7 @@ you can get the best of both worlds.
       exactly the same effect:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/static3a.html"</programlisting><ulink
         url="example/static3a.psp">Run</ulink></para>
@@ -1320,7 +1327,7 @@ you can get the best of both worlds.
       displayed country codes:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cgi5.html"</programlisting><ulink
         url="example/cgi5.psp">Run</ulink></para>
@@ -1334,7 +1341,7 @@ you can get the best of both worlds.
       tag attribute:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/static4.html"</programlisting><ulink
         url="example/static4.psp">Run</ulink></para>
@@ -1386,7 +1393,7 @@ you can get the best of both worlds.
       times over a 20 second interval</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cache1.html"</programlisting><ulink
         url="example/cache1.psp">Run</ulink></para>
@@ -1410,7 +1417,7 @@ you can get the best of both worlds.
       <para>The following example simulates such a scenario:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/cache2.html"</programlisting></para>
 
@@ -1436,7 +1443,7 @@ you can get the best of both worlds.
     <sect2>
       <title>Error Messages</title>
 
-      <para></para>
+      <para/>
 
       <para>Sooner or later something is going to go wrong in your code. If
       this happens WebDyne will generate an error showing what the error was
@@ -1444,7 +1451,7 @@ you can get the best of both worlds.
       following example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/err1.html"</programlisting></para>
 
@@ -1459,7 +1466,7 @@ you can get the best of both worlds.
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="images/err1.png" />
+            <imagedata fileref="images/err1.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1477,7 +1484,7 @@ you can get the best of both worlds.
       <para>If we have a look at another example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/err2.html"</programlisting></para>
 
@@ -1491,7 +1498,7 @@ you can get the best of both worlds.
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="images/err2.png" />
+            <imagedata fileref="images/err2.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1556,7 +1563,7 @@ sub hello {
       scenario.</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/err3.html"</programlisting><ulink
         url="example/err3.psp">Run</ulink></para>
@@ -1566,7 +1573,7 @@ sub hello {
       code associated with a page, e.g.:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/err4.html"</programlisting></para>
 
@@ -1922,7 +1929,7 @@ $VAR1={
           is readable by Perl.</para>
         </important>
 
-        <para></para>
+        <para/>
       </sect3>
 
       <sect3>
@@ -2495,7 +2502,7 @@ $HTTP["url"] =~"^/example/" {
     <sect2>
       <title>Other files referenced by WebDyne</title>
 
-      <para></para>
+      <para/>
 
       <variablelist>
         <varlistentry>
@@ -2691,7 +2698,7 @@ PerlSetVar      WebDyneCacheHandler '&amp;MyModule::cache'
       <para>Example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/session1.html"</programlisting></para>
 
@@ -2831,7 +2838,7 @@ PerlSetVar      WEBDYNE_SESSION_ID_COOKIE_NAME    'gingernut'
       <para>Example:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/state1.html"</programlisting></para>
 
@@ -2911,7 +2918,7 @@ PerlSetVar      WebDyneChain    'WebDyne::Session WebDyne::State::BerkeleyDB'
       <para>The template:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/template1.html"</programlisting></para>
 
@@ -2921,7 +2928,7 @@ PerlSetVar      WebDyneChain    'WebDyne::Session WebDyne::State::BerkeleyDB'
       <para>The content, run to view resulting merge:</para>
 
       <example>
-        <title></title>
+        <title/>
 
         <para><programlisting>#include "example/content1.html"</programlisting></para>
 

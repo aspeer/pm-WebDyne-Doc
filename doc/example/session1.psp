@@ -6,4 +6,5 @@ Session ID: !{! shift()->session_id() !}
 
 __PERL__
 
-use WebDyne::Session
+use WebDyne::Session;
+1;
