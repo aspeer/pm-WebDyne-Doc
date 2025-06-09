@@ -1,0 +1,28 @@
+#  ** BUILD STAGE **
+#
+FROM localhost/webdyne-alpine:latest
+
+
+#  Work directory
+#
+WORKDIR /app
+
+
+#  Build
+#
+COPY doc/example/*.psp .
+
+
+# Expose port 8080
+#
+EXPOSE 8080
+
+
+# Set an environment variable (can be overridden at runtime)
+#
+ENV DOCUMENT_ROOT=/app
+
+
+# Run the binary with the environment variable
+#
+CMD []

@@ -12,7 +12,9 @@ DIR_EXAMPLE=./example
 	
 webdyne_examples := $(patsubst %.psp,%.html,$(wildcard $(DIR_EXAMPLE)/*.psp))
 
-all	:	webdyne.pdf
+.PHONY : all
+
+all	: webdyne.pdf webdyne.md
 
 #webdyne.psp : webdyne.xml $(webdyne_examples)
 #	-openjade -t xml -i html -d $(DIR_DOCBOOK_DSL)#html -V nochunks $(DIR_DOCBOOK_DCL) $< > $@
@@ -39,10 +41,13 @@ all	:	webdyne.pdf
 #webdyne.pdf : webdyne.html
 #	htmldoc -f webdyne.pdf webdyne.html
 
-webdyne.md : webdyne.xml
+webdyne.md : webdyne-db5.xml
 	#pandoc webdyne.xml -f docbook -t markdown -o webdyne.md
-	pandoc -f docbook -t gfm --lua-filter=admonition-advanced.lua -o webdyne.md webdyne.xml
-	perl -pi -e 's/^\s*#include \"(.*)\"/"```html\n".qx[cat $$1]."\n```"/e' $@
+	#pandoc -f docbook -t markdown --lua-filter=admonition-advanced.lua -o webdyne.md webdyne-db5-expanded.xml
+	xmllint --xinclude --noent webdyne-db5.xml -o webdyne-db5-expanded.xml	
+	pandoc -f docbook -t markdown -o webdyne.md webdyne-db5-expanded.xml
+	#pandoc -f docbook -t gfm --lua-filter=xml-id-to-heading.lua -o webdyne.md webdyne-doc.db5.xml
+	#perl -pi -e 's/^\s*#include \"(.*)\"/"```html\n".qx[cat $$1]."\n```"/e' $@
 	perl -pi -e 's/\\</</g' $@
 	#perl -pi -e 's/__PERL__/&#095&#095PERL&#095&#095/g' $@
 	#perl -pi -e 's/\!{\!(.*?)\!}/&#033{&#033{$$1}&#033}/g' $@
