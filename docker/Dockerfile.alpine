@@ -1,6 +1,6 @@
 #  ** BUILD STAGE **
 #
-FROM localhost/webdyne-alpine:latest
+FROM ghcr.io/aspeer/webdyne/webdyne-alpine:latest
 
 
 #  Work directory
